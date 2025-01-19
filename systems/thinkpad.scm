@@ -4,9 +4,10 @@
   #:use-module (homes)
   #:use-module (gnu)
   #:use-module (nongnu packages linux)
-  #:use-module (nongnu system linux-initrd))
+  #:use-module (nongnu system linux-initrd)
+  #:export (thinkpad-os))
 
-(define-public thinkpad
+(define-public thinkpad-os
 	(operating-system
 		(inherit base-os)
 		(host-name "thinkpad")

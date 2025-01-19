@@ -1,3 +1,3 @@
 (use-modules (systems thinkpad))
 
-thinkpad
+thinkpad-os
