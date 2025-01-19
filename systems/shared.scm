@@ -9,7 +9,7 @@
 
 ;; Indicate which modules to import to access the variables
 ;; used in this configuration.
-(define-module (systems)
+(define-module (systems shared)
 	#:use-module (gnu)
     #:use-module (nongnu packages linux)
     #:use-module (nongnu packages firmware)

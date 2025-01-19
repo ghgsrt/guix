@@ -1,4 +1,5 @@
-(define-module (systems)
+(define-module (systems thinkpad)
+  #:use-module (systems shared)
   #:use-module (services)
   #:use-module (homes)
   #:use-module (gnu)
