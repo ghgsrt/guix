@@ -9,6 +9,7 @@
    #:name "base-home"
    #:features (list (make-manifest-feature make-guile-feature))
    #:packages (list
+				git
 				curl
 				tmux
 				ripgrep
