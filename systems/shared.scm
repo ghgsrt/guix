@@ -17,7 +17,7 @@
 	#:use-module (gnu services networking)
 	#:use-module (gnu services ssh)
 	#:use-module (gnu services linux)
-	#:export (base-operating-system))
+	#:export (base-os))
 
 (define base-os
   (locale "en_US.utf8")
