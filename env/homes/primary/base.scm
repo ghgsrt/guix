@@ -17,7 +17,7 @@
 						 (make-zsh-feature)
 						 (make-archive@minimal-feature))
 		#:packages (list netsurf)
-		#:env-vars (list
+		#:env-vars `(
 					("EDITOR" . "emacs")
 					("VISUAL" . "emacs"))))
 

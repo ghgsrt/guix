@@ -1,13 +1,26 @@
+;(load "/config/lib/path.scm")
+;(use-modules (utils file-loader))
+
+;(load-homes)
+;(load "/config/systems/shared.scm")
+
 (define-module (systems thinkpad)
   #:use-module (systems shared)
   #:use-module (services)
-  #:use-module (homes)
+ ; #:use-module (lib path)
+  #:use-module (env homes primary base)
+  #:use-module (users alex)
   #:use-module (gnu)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
   #:export (thinkpad-os))
 
-(define-public thinkpad-os
+;(load-homes)
+;(load-users)
+
+(display "Loading THINKPAD-OS from module systems/thinkpad")
+
+(define thinkpad-os
 	(operating-system
 		(inherit base-os)
 		(host-name "thinkpad")

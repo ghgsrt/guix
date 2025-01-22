@@ -8,10 +8,10 @@
 (load-features)
 
 ;; Re-export all public bindings from any (env features) modules
-(let ((all-bindings
-       (module-map (lambda (sym var) sym)
-                  (resolve-module '(features)))))
-  (module-re-export! (current-module) all-bindings))
+;(let ((all-bindings
+ ;      (module-map (lambda (sym var) sym)
+   ;               (resolve-module '(features)))))
+  ;(module-re-export! (current-module) all-bindings))
 
 ; (define (scm-files directory)
 ;   (filter (lambda (file)

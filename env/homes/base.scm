@@ -1,3 +1,7 @@
+;(load "/config/lib/path.scm")
+;(use-modules (utils file-loader))
+;(load-modules 'packages 'services 'features)
+
 (define-module (homes)
   #:use-module (packages)
   #:use-module (services)

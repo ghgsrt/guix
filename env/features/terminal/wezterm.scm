@@ -7,6 +7,6 @@
 	(make-feature
 		#:name "wezterm"
 		#:packages (list wezterm)
-		#:env-vars (list
+		#:env-vars `(
 					("TERMINAL" . "wezterm")
 					("TERM" . "xterm-256color"))))

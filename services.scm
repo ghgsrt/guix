@@ -1,9 +1,9 @@
 (define-module (services))
 
 ;; List of modules to re-export
-(define modules-to-reexport
-  '((gnu services)
-	(gnu services networking)
+(use-modules
+  ;(gnu services)
+;	(gnu services networking)
     (gnu services desktop)
     (gnu services audio)
     (gnu services shepherd)
@@ -28,15 +28,80 @@
 	(gnu home services gnupg)
 	(gnu home services shepherd)
 	(gnu home services sound)
-	(gnu home services desktop)))
+	(gnu home services sway)
+	(gnu home services desktop))
+
+(define-syntax import-and-export
+  (syntax-rules ()
+   ((import-all)
+      (begin
+	(macroexpand `(re-export)))))) 
+
+;(macroexpand `(use-modules ,@modules-to-reexport))
+;(use-modules (modules-to-reexport))
+;(define (get-imported-bindings module-name)
+;  (let ((mod (resolve-module module-name)))
+;    (module-map mod (lambda (sym var) sym))))
+
+;(define (get-all-imports)
+;  (let ((uses (module-uses (current-module))))
+;    (filter-map (lambda (use) (and (module? use) (module-name use))) uses)))
+
+(define-syntax-rule (re-export-all mod)
+;(for-each (lambda (mod-name)  
+(module-re-export!
+    (current-module)
+    (get-imported-bindings mod)))
+;(get-all-imports)))
+
+;(display (map 
+;(lambda (mod)
+;  (module-variable 
+;   (current-module) 
+;   (module-obarray mod))) 
+;(module-uses (current-module))))
+
+(define-syntax re-export-list
+  (syntax-rules ()
+    ((re-export-list lst)
+      (macroexpand `(re-export ,@lst)))))
+(re-export-list
+(apply append (map (lambda (inter)
+ (module-map (lambda (sym var) sym) inter)
+) (module-uses (current-module)))))
+(newline)
+(newline)
+(newline)
+(newline)
+(newline)
+;(display
+; (map (lambda (inter)
+;  (hash-map->list 
+;    (lambda (k v) k)
+;    (module-obarray inter)))
+;(module-uses (current-module))))
+
+;(display (module-uses (current-module)))
+;(display (module-map (lambda (sym var) sym) (current-module)))
+
+;(display 
+ ;(hash-map->list (lambda (k v) k)
+; (module-obarray (resolve-module (module-uses (current-module)))))
+
+;(for-each (lambda (mod)
+;  (module-re-export! (current-module) mod))
+;`(,@(module-uses (current-module))))
+
+
+;(module-re-export! (current-module) (module-uses (current-module))))
 
 ;; Load and re-export everything from each module
-(for-each
- (lambda (module-name)
-   (let ((mod (resolve-module module-name)))
-     ;; Re-export all bindings from this module
-     (module-for-each
-      (lambda (name var)
-        (module-re-export! (current-module) (list name)))
-      (module-public-interface mod))))
- modules-to-reexport)
+;(for-each
+; (lambda (module-name)
+;   (let ((mod (resolve-module module-name)))
+;     ;; Re-export all bindings from this module
+;     (module-for-each
+;      (lambda (name var)
+;        (module-re-export! (current-module) (list name)))
+;      (module-public-interface mod))))
+; modules-to-reexport)

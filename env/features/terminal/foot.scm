@@ -7,6 +7,6 @@
 	(make-feature
 		#:name "foot"
 		#:packages (list foot)
-		#:env-vars (list
+		#:env-vars `(
 					("TERMINAL" . "foot")
 					("TERM" . "foot"))))

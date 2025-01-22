@@ -1,9 +1,9 @@
-(define-module (utils file-loader)
+(define-module (lib path)
   #:use-module (ice-9 ftw)
   #:use-module (ice-9 match)
   #:use-module (ice-9 regex)
   #:use-module (srfi srfi-1)
-  #:export (load-dir load-features load-packages))
+  #:export (load-dir load-features load-packages load-services load-homes load-users))
 
 (define* (load-dir dir
 				#:key
@@ -38,7 +38,12 @@
              (_ (not (excluded? filename))))))))
 
 (define (load-packages)
-  (load-dir "/config/env/packages"))
+  (load "/config/packages.scm"))
 (define (load-features)
-;   (load-packages)
   (load-dir "/config/env/features"))
+(define (load-services)
+  (load "/config/services.scm"))
+(define (load-homes)
+  (load-dir "/config/env/homes"))
+(define (load-users)
+  (load-dir "/config/users"))

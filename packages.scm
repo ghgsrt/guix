@@ -17,7 +17,13 @@
   #:use-module (guix download)
   #:use-module (guix build-system gnu)
   #:use-module ((guix licenses)
-                #:prefix license:))
+                #:prefix license:)
+  )
+;#:re-export-all '#t)
+ ; #:re-export (apply re-export system-packages))
+ ; #:re-export (modules-map 
+;	(lambda (name var) name) 
+;		(current-module)))
 
 (use-package-modules freedesktop
                      base
@@ -110,7 +116,10 @@
                      gnome
                      databases
                      bittorrent
-                     shellutils)
+                     shellutils
+		     gl)
+
+;(re-export dbus)
 
 (define (sss/x86-only-pkg architecture pkg)
   (if (string-prefix? "x86_64" architecture)
@@ -161,7 +170,7 @@
     (license license:gpl3+)))
 
 (define sss-font-packages
-  (list fontconfig
+  '(fontconfig
         font-google-roboto
         font-google-noto-emoji
         font-recursive
@@ -178,7 +187,7 @@
         font-google-noto))
 
 (define sss-wm-packages
-  (list swaybg
+  '(swaybg
         swaylock-effects
         swayidle
         rofi-wayland
@@ -196,6 +205,11 @@
         pipewire
 
         wl-clipboard
+
+shared-mime-info
+	dbus
+fontconfig
+mesa
 
         ;; Wayland portals
         xdg-desktop-portal
@@ -215,7 +229,7 @@
         (list glib "bin")))
 
 (define sss-treesitter-packages
-  (list tree-sitter
+  '( tree-sitter
         tree-sitter-bash
         tree-sitter-dockerfile
         tree-sitter-lua
@@ -231,10 +245,10 @@
         tree-sitter-javascript))
 
 (define sss-terminal-emulator-packages
-  (list foot))
+  '(wezterm foot))
 
 (define sss-dev-packages
-  (list (specification->package "openjdk@21.0.2")
+  '((specification->package "openjdk@21.0.2")
         (specification->package "node@20.18.1")
         (specification->package "python")
         cl-asdf
@@ -242,7 +256,7 @@
         rust-analyzer))
 
 (define sss-coreutils
-  (list htop
+  '(htop
         emacs-pgtk
         vim
         openssh
@@ -271,7 +285,7 @@
         xorg-server))
 
 (define sss-theme-packages
-  (list papirus-icon-theme
+  '(papirus-icon-theme
         yaru-theme
         gnome-themes-standard
         gnome-themes-extra
@@ -279,13 +293,13 @@
         sss-kv-yaru-colors))
 
 (define sss-music-packages
-  (list spotifyd lilypond mpd mpd-mpc ardour))
+  '( spotifyd lilypond mpd mpd-mpc ardour))
 
 (define sss-browser-packages
-  (list icecat icedove))
+  '(icecat icedove))
 
-(define* (sss-other-system-packages #:key architecture)
-  (list
+;(define* (sss-other-system-packages #:key architecture)
+(define sss-other-system-packages  '(
 
         flatpak
         pipewire
@@ -397,7 +411,7 @@
         texinfo
         texlive
 
-        (sss/x86-only-pkg architecture "ghcid")
+        ;(sss/x86-only-pkg architecture "ghcid")
 
         neofetch
         cmatrix
@@ -433,10 +447,10 @@
 
         (specification->package "gettext")
 
-        (sss/x86-only-pkg architecture "google-chrome-stable")
-        (sss/x86-only-pkg architecture "reaper")
-        (sss/x86-only-pkg architecture "stellarium")
-        (sss/x86-only-pkg architecture "virt-manager")
+;        (sss/x86-only-pkg architecture "google-chrome-stable")
+ ;       (sss/x86-only-pkg architecture "reaper")
+  ;      (sss/x86-only-pkg architecture "stellarium")
+   ;     (sss/x86-only-pkg architecture "virt-manager")
 
         (specification->package "darkhttpd")
 
@@ -450,7 +464,7 @@
         xxd))
 
 (define sss-container-packages
-  (list podman-compose podman passt slirp4netns))
+  '( podman-compose podman passt slirp4netns))
 
 (define-public sss-guile-dbi
   (package
@@ -567,7 +581,7 @@ SQL databases.  This package implements the interface for SQLite.")))
       (license license:gpl3+))))
 
 (define sss-guile-packages
-  (list guile-fibers
+  '(guile-fibers
         guile-g-golf
         guile-json-4
         guile-sqlite3
@@ -578,25 +592,119 @@ SQL databases.  This package implements the interface for SQLite.")))
 ;; SYSTEM PACKAGES
 ;;
 ;; Add packages here to install them system wide
-(define* (system-packages #:key (per-host-packages '())
-							(architecture (or (%current-target-system)
-												(%current-system))))
-	(append per-host-packages
-			(sss-other-system-packages #:architecture architecture)
-			sss-wm-packages
-			sss-font-packages
-			sss-dev-packages
-			sss-guile-packages
-			sss-container-packages
-			sss-treesitter-packages
-			sss-coreutils
-			sss-terminal-emulator-packages
-			sss-browser-packages
-			sss-theme-packages))
+;(define* (system-packages #:key (per-host-packages '())
+					;		(architecture (or (%current-target-system)
+											;	(%current-system))))
+;(define-syntax system-packages	
+;  (syntax-rules ()
+;    [(_) #`(
 
+;(define system-packages `(
+;			,@sss-other-system-packages
+; #:architecture architecture)
+;			,@sss-wm-packages
+;			,@sss-font-packages
+;			,@sss-dev-packages
+;			,@sss-guile-packages
+;			,@sss-container-packages
+;			,@sss-treesitter-packages
+;			,@sss-coreutils
+;			,@sss-terminal-emulator-packages
+;			,@sss-browser-packages
+;			,@sss-theme-packages))
+;(display system-packages)
+
+(define-syntax re-export-list
+  (syntax-rules ()
+    ((re-export-list lst)
+      (macroexpand `(re-export ,@lst)))))
+
+(re-export-list
+(apply append (map (lambda (inter)
+ (module-map (lambda (sym var) sym) inter)
+) (module-uses (current-module)))))
+
+;(display "starting export")
+;(re-export-list sss-wm-packages)
+;(display "exported wm")
+;(re-export-list sss-other-system-packages)
+;(display "exported other")
+;(re-export-list sss-font-packages)
+;(display "exported font")
+;(re-export-list sss-dev-packages)
+;(display "exported dev")
+;(re-export-list sss-guile-packages)
+;(display "exported guile")
+;(re-export-list sss-container-packages)
+;(display "exported container")
+;(re-export-list sss-treesitter-packages)
+;(display "exported treesitter")
+;(re-export-list sss-coreutils)
+;(display "exported coreutils")
+;(re-export-list sss-terminal-emulator-pac>
+;(display "exported terminal")
+;(re-export-list sss-browser-packages)
+;(display "exported browser")
+;(re-export-list sss-theme-packages)
+;(display "exported theme")
+;(display "exporting complete")
+
+
+
+(define-syntax test-packages
+  (syntax-rules ()
+    [(_) #'(dbus shared-mime-info)]))
+
+(define-syntax all-packages
+  (syntax-rules ()
+    [(_)
+      (with-syntax ([test (test-packages)])
+        #`(,@test))]))
+
+(define-syntax do-re-exports
+  (lambda (stx)
+    (syntax-case stx ()
+      [(_)
+        (with-syntax ([pkgs (all-packages)])
+          #`(re-export ,@pkgs))])))
+;(do-re-exports)
+
+;(define tester '("hello" "world"))
+;(display tester)
+;(display @tester)
+
+(define test '(dbus))
+;(display 
+;  (macroexpand-1 
+;    '(re-export-list test-packages)))
+;(display "what the fuck")
+
+;(re-export system-packages)
+;(apply re-export (list 'dbus 'shared-mime-info))
+
+;(let ((bindings '()))
+;  (module-for-each (lambda (sym var)
+;      (set! bindings (cons sym bindings)))
+;    (current-module))
+;  (module-export! (current-module) bindings))
+	
+;(module-export! (current-module) system-packages)
 ;; TODO verify this works
-(for-each
-  (lambda (package)
-    (module-define! (current-module) package (list package))
-    (module-export! (current-module) (list package)))
-  system-packages)
+;(for-each
+;  (lambda (package)
+;    (module-define! (current-module) package (list package))
+;    (module-export! (current-module) (list package)))
+;	(re-export package))
+;  system-packages)
+;; Load and re-export everything from eac>
+;(for-each
+; (lambda (module-name)
+;   (let ((mod (resolve-module module-name>
+;     ;; Re-export all bindings from this >
+;     (module-for-each
+;      (lambda (name var)
+;        (module-re-export! (current-modul>
+;      (module-public-interface mod))))
+; modules-to-reexport)
+
+

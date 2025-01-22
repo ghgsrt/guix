@@ -1,6 +1,7 @@
 (define-module (features)
   #:use-module (packages)
   #:use-module (services)
+  #:use-module (guix gexp)
   #:export (make-kvantum-feature))
 
 (define (make-kvantum-feature)

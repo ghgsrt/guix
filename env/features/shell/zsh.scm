@@ -14,8 +14,7 @@
       fzf
       direnv
       starship)
-    #:env-vars (list
-      ("SHELL" . "/run/current-system/profile/bin/zsh")
+    #:env-vars `(("SHELL" . "/run/current-system/profile/bin/zsh")
       ("STARSHIP_CONFIG" . "/config/dotfiles/starship.toml")
       ("FZF_DEFAULT_OPTS" . "--height 40% --border")
       ("WORDCHARS" . "")

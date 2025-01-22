@@ -1,6 +1,7 @@
 (define-module (features)
   #:use-module (packages)
   #:use-module (services)
+  #:use-module (srfi srfi-9)    ; For define-record-type
   #:use-module (srfi srfi-1)    ; For fold and other list operations
   #:export (make-feature
            feature?
@@ -12,18 +13,22 @@
            package-name=?))
 
 ;; Core feature record type with all fields
-(define-record-type* <feature>
-  feature make-feature
+(define-record-type <feature>
+  (%make-feature name packages services env-vars version-specs)
   feature?
   (name feature-name)                    ;string
-  (packages feature-packages             ;list of <package>
-    (default '()))
-  (services feature-services             ;list of <service>
-    (default '()))
-  (version-specs feature-version-specs   ;alist of (name . version)
-    (default '()))
-  (env-vars feature-env-vars             ;alist of (name . value)
-	(default '())))
+  (packages feature-packages)            ;list of <package>
+  (services feature-services)            ;list of <service>
+  (env-vars feature-env-vars)            ;alist of (name . value)
+  (version-specs feature-version-specs)) ;alist of (name . version)
+
+;(define* (make-feature #:key
+;	 (name "invalid")
+;	 (packages '())
+;	 (services '())
+;	 (env-vars '())
+;	 (version-specs '()))
+;	(%make-feature name packages services env-vars version-specs))
 
 (define (get-package-name pkg)
   (if (string? pkg)
@@ -113,12 +118,12 @@
 		 (all-env-vars (apply merge-env-vars
 		 					 env-vars
 							 (map feature-env-vars sub-features))))
-    (feature
-     (name name)
-     (packages all-packages)
-     (services all-services)
-     (version-specs all-versions)
-	 (env-vars all-env-vars))))
+    (%make-feature
+     name
+     all-packages
+     all-services
+     all-env-vars
+     all-versions)))
 
 ;; Convert feature to manifest
 (define* (feature->manifest feature #:key (versions '()))

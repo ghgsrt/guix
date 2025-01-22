@@ -15,7 +15,7 @@
 	;   lxsession
 	  mako
 	  swaybg)
-	#env-vars `(("XDG_CURRENT_DESKTOP" . "sway"))))
+    #:env-vars `(("XDG_CURRENT_DESKTOP" . "sway"))))
 
 (define (make-sway@minimal-feature)
 	(make-feature
