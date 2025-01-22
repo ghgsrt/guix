@@ -27,6 +27,7 @@
 
 (use-package-modules freedesktop
                      base
+		     tmux                     
                      lxqt
                      package-management
                      parallel
@@ -117,6 +118,7 @@
                      databases
                      bittorrent
                      shellutils
+		     shells
 		     gl)
 
 ;(re-export dbus)

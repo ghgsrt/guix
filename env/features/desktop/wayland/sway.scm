@@ -19,10 +19,10 @@
 
 (define (make-sway@minimal-feature)
 	(make-feature
-	  #:name "sway@minimal")
+	  #:name "sway@minimal"
 	  #:features (list (make-sway@minimal:nos-feature))
 	  #:packages (list sway)
-	  #:services (list (service home-sway-service-type)))
+	  #:services (list (service home-sway-service-type))))
 
 (define (make-sway:nos-feature)
   (make-feature
@@ -36,10 +36,10 @@
 
 (define (make-sway-feature)
 	(make-feature
-	  #:name "sway")
+	  #:name "sway"
 	  #:features (list (make-sway:nos-feature))
 	  #:packages (list sway)
-	  #:services (list (service home-sway-service-type)))
+	  #:services (list (service home-sway-service-type))))
 
 (define (make-swayfx-feature)
 	(make-feature

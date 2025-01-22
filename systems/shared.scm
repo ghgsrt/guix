@@ -20,19 +20,20 @@
 	#:export (base-os))
 
 (define base-os
-  (locale "en_US.utf8")
-  (timezone "America/New_York")
-  (keyboard-layout (keyboard-layout "us"))
-  (host-name "guix")
+  (operating-system
+    (locale "en_US.utf8")
+    (timezone "America/New_York")
+    (keyboard-layout (keyboard-layout "us"))
+    (host-name "guix")
 
-  (kernel linux)
-  (initrd microcode-initrd)
+    (kernel linux)
+    (initrd microcode-initrd)
 
-  ;; Don't forget to add any necessary kernel-modules!
+    ;; Don't forget to add any necessary kernel-modules!
 
-  (firmware (list sof-firmware linux-firmware))
+    (firmware (list sof-firmware linux-firmware))
 
-  ;; The list of user accounts ('root' is implicit).
+    ;; The list of user accounts ('root' is implicit).
 ;   (users (cons* (user-account
 ;                   (name "bosco")
 ;                   (comment "Bosco")
@@ -51,16 +52,17 @@
 
   ;; Below is the list of system services.  To search for available
   ;; services, run 'guix system search KEYWORD' in a terminal.
-  (services
-        ; (append (
-			list
+    (services
+         (append 
+			(list
                   ;; To configure OpenSSH, pass an 'openssh-configuration'
                   ;; record as a second argument to 'service' below.
-                  (service openssh-service-type)
-                  (service tor-service-type)
+                 ; (service openssh-service-type)
+                 ; (service tor-service-type)
                   (service network-manager-service-type)
                   (service wpa-supplicant-service-type)
                   (service ntp-service-type))
+		%base-services))
                 ; (modify-services %base-services
                 ;   (guix-service-type config =>
                 ;         (guix-configuration
@@ -71,4 +73,15 @@
                 ;                 (authorized-keys
                 ;                         (append (list (local-file "./nonguix-signing-key.pub"))
                 ;                                 %default-authorized-guix-keys)))))))
-)
+
+    (bootloader (bootloader-configuration
+	(bootloader grub-efi-bootloader)
+	(targets (list "/boot/efi"))))
+
+    (swap-devices '())
+    (file-systems (cons (file-system
+			  (device (file-system-label "root"))
+			  (mount-point "/")
+			  (type "ext4"))
+		   %base-file-systems))
+))

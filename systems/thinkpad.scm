@@ -7,8 +7,9 @@
 (define-module (systems thinkpad)
   #:use-module (systems shared)
   #:use-module (services)
- ; #:use-module (lib path)
-  #:use-module (env homes primary base)
+;  #:use-module (lib path)
+  #:use-module (homes)
+  #:use-module (features)
   #:use-module (users alex)
   #:use-module (gnu)
   #:use-module (nongnu packages linux)
@@ -17,6 +18,7 @@
 
 ;(load-homes)
 ;(load-users)
+;(load-dir "/config/systems")
 
 (display "Loading THINKPAD-OS from module systems/thinkpad")
 
@@ -29,7 +31,10 @@
 						%default-kernel-arguments))
 		(kernel-loadable-modules (list broadcom-sta))
 
-		(users (cons (make-alex-account #:home-config (primary@minimal-home)) %base-user-accounts))
+		(users (cons 
+			(make-alex-account 
+			  #:home-config (feature->home-environment primary@minimal-home)) 
+		       %base-user-accounts))
 
 		(packages (append (list
 							"tlp")
@@ -44,8 +49,7 @@
 
 		(bootloader (bootloader-configuration
 						(bootloader grub-efi-bootloader)
-						(targets (list "/boot/efi"))
-						(keyboard-layout keyboard-layout)))
+						(targets (list "/boot/efi"))))
 		(swap-devices (list (swap-space
 							(target (uuid
 										"ccfae056-c3b1-4e1a-b432-e81f9715ae6d")))))

@@ -1,6 +1,7 @@
 (define-module (features)
   #:use-module (packages)
   #:use-module (services)
+  #:use-module (homes)
   #:use-module (srfi srfi-9)    ; For define-record-type
   #:use-module (srfi srfi-1)    ; For fold and other list operations
   #:export (make-feature
@@ -10,6 +11,7 @@
            feature-services
            feature-version-specs
            feature->manifest
+	   feature->home-environment
            package-name=?))
 
 ;; Core feature record type with all fields
@@ -31,9 +33,9 @@
 ;	(%make-feature name packages services env-vars version-specs))
 
 (define (get-package-name pkg)
-  (if (string? pkg)
-      pkg
-      (package-name pkg)))
+  (cond ((package? pkg)(package-name pkg))
+	 (else pkg)))
+    ;  (package-name pkg)))
 
 (define (package-name=? p1 p2)
   (string=? (get-package-name p1) 
@@ -54,6 +56,24 @@
                 (cons pkg acc))))
         '()
         (concatenate (reverse pkg-lists))))
+
+(define (get-service-name svc)
+   (cond ((string? svc) svc)
+	 (else (service-name svc)))) 
+ ;(cond ((service? svc) (service-name svc))
+;	 (else svc)))
+
+(define (service-name=? s1 s2)
+  (eq? s1 s2))
+
+(define (merge-service-lists . svc-lists)
+  (fold (lambda (svc acc)
+	  (let ((existing (find (lambda (s) (service-name=? s svc)) acc)))
+	    (if existing
+		(cons svc (delete existing acc))
+		(cons svc acc))))
+	  '()
+	  (concatenate (reverse svc-lists))))
 
 ;; Helper to merge version specs with "last wins" semantics
 (define (merge-version-specs . spec-lists)
@@ -109,7 +129,7 @@
          (all-packages (apply merge-package-lists
                              packages
                              (map feature-packages sub-features)))
-         (all-services (apply merge-package-lists
+         (all-services (apply merge-service-lists
                              services
                              (map feature-services sub-features)))
          (sub-versions (map feature-version-specs sub-features))

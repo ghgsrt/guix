@@ -1,0 +1,4 @@
+env/homes/base.scm:25:32: In procedure make-base-home-feature:
+error: fd-find: unbound variable
+hint: Did you forget a `use-modules' form?
+

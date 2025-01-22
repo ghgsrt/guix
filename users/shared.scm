@@ -1,7 +1,6 @@
 (define-module (users shared)
-  #:use-module (gnu home)
-  #:use-module (gnu services)
-  #:use-module (gnu packages)
+  #:use-module (services)
+  #:use-module (packages)
   #:export (make-user-account))
 
 (define* (make-user-account

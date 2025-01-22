@@ -7,7 +7,7 @@
 	(make-feature
 		#:name "archive@minimal"
 		#:packages (list
-			zip
+			"zip"
 			unzip)))
 
 (define (make-archive-feature)

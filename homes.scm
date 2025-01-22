@@ -1,3 +1,4 @@
-(use-modules (lib path))
+(define-module (homes)
+  #:use-module (lib path))
 
 (load-homes)
