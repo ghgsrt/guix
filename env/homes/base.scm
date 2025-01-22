@@ -11,9 +11,11 @@
 (define (make-base-home-feature)
   (make-feature
    #:name "base-home"
-   #:features (list (make-manifest-feature make-guile-feature))
+   #:features (list (make-manifest-feature) 
+		    (make-guile-feature)
+		    (make-git-feature)
+		    (make-ssh-feature))
    #:packages (list
-				git
 				curl
 				tmux
 				ripgrep
