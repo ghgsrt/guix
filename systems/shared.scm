@@ -54,15 +54,32 @@
   ;; services, run 'guix system search KEYWORD' in a terminal.
     (services
          (append 
-			(list
-                  ;; To configure OpenSSH, pass an 'openssh-configuration'
-                  ;; record as a second argument to 'service' below.
-                 ; (service openssh-service-type)
-                 ; (service tor-service-type)
-                  (service network-manager-service-type)
-                  (service wpa-supplicant-service-type)
-                  (service ntp-service-type))
-		%base-services))
+		(list
+                ;  (service network-manager-service-type)
+                 ; (service wpa-supplicant-service-type)
+                 ; (service ntp-service-type))
+		)%base-services))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 ; (modify-services %base-services
                 ;   (guix-service-type config =>
                 ;         (guix-configuration

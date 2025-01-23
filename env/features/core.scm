@@ -171,7 +171,10 @@
 							feature))))
 	(home-environment
 		(packages (feature-packages merged-feature))
-		(services (cons*
-				(service home-environment-variables-service-type
-						(feature-env-vars merged-feature))
-				(feature-services merged-feature))))))
+;		(services (feature-services merged-feature))
+)))
+
+				;(cons* 
+				;(service home-environment-variables-service-type
+				;		(feature-env-vars merged-feature))
+				;(feature-services merged-feature))))))

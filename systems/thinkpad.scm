@@ -40,12 +40,15 @@
 							"tlp")
 						(operating-system-packages base-os)))
 
-		(services (append (list
+		(services
+; (append 
+(list
 							(service tlp-service-type)
 							(service bluetooth-service-type
 								(bluetooth-configuration (experimental #t)
 														 (auto-enable? #t))))
-						(operating-system-services base-os)))
+)
+;						(operating-system-services base-os)))
 
 		(bootloader (bootloader-configuration
 						(bootloader grub-efi-bootloader)
