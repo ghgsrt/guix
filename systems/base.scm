@@ -65,10 +65,10 @@
   ;; services, run 'guix system search KEYWORD' in a terminal.
     ; (services
     ;      (append 
-	; 	(list
-    ;             ;  (service network-manager-service-type)
-    ;              ; (service wpa-supplicant-service-type)
-    ;              ; (service ntp-service-type))
+		; (list
+        ;          (service network-manager-service-type)
+        ;          (service wpa-supplicant-service-type)
+        ;          (service ntp-service-type))
 	; 	)%base-services))
 
 

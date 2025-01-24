@@ -10,22 +10,19 @@
 
 (define %base-home-feature
   (feature "base-home"
-   #:features (list (make-manifest-feature)
-		    (make-guile-feature)
-		    (make-git-feature)
-		    (make-ssh-feature))
-   #:packages (list
-				curl
-				tmux
-				ripgrep
-				fd
-				tree
-				gcc
-				coreutils
-				dstat)
+   #:features (list (manifest-feature)
+					(guile-feature)
+					(git-feature)
+					(ssh-feature))
+   #:packages (list curl
+					ripgrep
+					fd
+					tree
+					gcc
+					dstat)
    #:services (list (service home-dotfiles-service-type
-					(home-dotfiles-configuration
-					 (directories '("../../dotfiles")))))
+						(home-dotfiles-configuration
+						(directories '("../../dotfiles")))))
    #:env-vars '(("GUIX_PACKAGE_PATH" . "/config")
 				("GUIX_LOCPATH" . "$home/.guix-profile/lib/locale")
 				("PATH" . "$HOME/.local/bin:$PATH")

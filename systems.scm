@@ -13,7 +13,13 @@
 (load-systems)
 
 (define %base-os-feature
-  (feature "base-os-feature"))
+  (feature "base-os-feature"
+    #:packages (list git
+					 tmux
+					 coreutils)
+  	#:services (list (service network-manager-service-type)
+                 	 (service wpa-supplicant-service-type)
+                 	 (service ntp-service-type))))
 
 (define %base-os
   (operating-system
