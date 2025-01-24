@@ -1,6 +1,7 @@
 (define-module (services))
 
-;; List of modules to re-export
+;; Service facade
+
 (use-modules
   (gnu services)
 	(gnu services networking)
@@ -41,27 +42,39 @@
 	(gnu system accounts)
 	(gnu system shadow))
 
-(define-syntax import-and-export
+;; Re-export all bindings from the modules we use
+(define-syntax re-export-list
   (syntax-rules ()
-   ((import-all)
-      (begin
-	(macroexpand `(re-export)))))) 
+    ((re-export-list lst)
+      (macroexpand `(re-export ,@lst)))))
+(re-export-list
+	(apply append (map
+					(lambda (inter)
+						(module-map (lambda (sym var) sym) inter))
+					(module-uses (current-module)))))
 
-;(macroexpand `(use-modules ,@modules-to-reexport))
-;(use-modules (modules-to-reexport))
-;(define (get-imported-bindings module-name)
-;  (let ((mod (resolve-module module-name)))
-;    (module-map mod (lambda (sym var) sym))))
 
-;(define (get-all-imports)
-;  (let ((uses (module-uses (current-module))))
-;    (filter-map (lambda (use) (and (module? use) (module-name use))) uses)))
+; (define-syntax import-and-export
+;   (syntax-rules ()
+;    ((import-all)
+;       (begin
+; 	(macroexpand `(re-export)))))) 
 
-(define-syntax-rule (re-export-all mod)
-;(for-each (lambda (mod-name)  
-(module-re-export!
-    (current-module)
-    (get-imported-bindings mod)))
+; ;(macroexpand `(use-modules ,@modules-to-reexport))
+; ;(use-modules (modules-to-reexport))
+; ;(define (get-imported-bindings module-name)
+; ;  (let ((mod (resolve-module module-name)))
+; ;    (module-map mod (lambda (sym var) sym))))
+
+; ;(define (get-all-imports)
+; ;  (let ((uses (module-uses (current-module))))
+; ;    (filter-map (lambda (use) (and (module? use) (module-name use))) uses)))
+
+; (define-syntax-rule (re-export-all mod)
+; ;(for-each (lambda (mod-name)  
+; (module-re-export!
+;     (current-module)
+;     (get-imported-bindings mod)))
 ;(get-all-imports)))
 
 ;(display (map 
@@ -71,19 +84,7 @@
 ;   (module-obarray mod))) 
 ;(module-uses (current-module))))
 
-(define-syntax re-export-list
-  (syntax-rules ()
-    ((re-export-list lst)
-      (macroexpand `(re-export ,@lst)))))
-(re-export-list
-(apply append (map (lambda (inter)
- (module-map (lambda (sym var) sym) inter)
-) (module-uses (current-module)))))
-(newline)
-(newline)
-(newline)
-(newline)
-(newline)
+
 ;(display
 ; (map (lambda (inter)
 ;  (hash-map->list 

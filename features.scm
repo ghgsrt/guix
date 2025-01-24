@@ -1,5 +1,5 @@
 (define-module (features)
-  #:use-module (lib path)
+  #:use-module (utils)
   #:use-module (ice-9 ftw)
   #:use-module (ice-9 match)
   #:use-module (ice-9 regex))

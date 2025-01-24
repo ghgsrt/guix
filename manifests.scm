@@ -3,7 +3,18 @@
   #:use-module (ice-9 regex)
   #:use-module (ice-9 format)
   #:use-module (srfi srfi-1)
-  #:export (generate-project-manifest))
+  #:export (generate-project-manifest feature->manifest))
+
+(define* (feature->manifest feature #:key (versions '()))
+  (let ((override-versions
+          (lambda (pkg)
+            (let ((override (assoc-ref versions (package-name pkg))))
+              (if override
+                  (specification->package
+                    (string-append (package-name pkg) "@" override))
+                  pkg)))))
+    (packages->manifest
+      (map override-versions (feature-packages feature)))))
 
 ;; Record type for our manifest entries
 (define-record-type* <manifest-entry>

@@ -1,5 +1,5 @@
-(load "./systems/thinkpad.scm")
+; (load "./systems/thinkpad.scm")
 (add-to-load-path "/config")
-(use-modules (systems thinkpad))
+(use-modules (systems))
 
 thinkpad-os
