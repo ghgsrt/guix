@@ -5,15 +5,15 @@
   #:use-module (services)
   #:use-module (features)
   #:use-module (homes)
+  #:use-module (guix records)
   #:export (%base-os
   			%base-os-feature
 			feature->operating-system
 			user-config))
 
-(load-systems)
 
 (define %base-os-feature
-  (feature "base-os-feature"
+  (feature "base-os"
     #:packages (list git
 					 tmux
 					 coreutils)
@@ -96,3 +96,6 @@
 	  (file-systems (append file-systems %base-file-systems))
 	  (kernel-loadable-modules kernel-loadable-modules)
 	  (kernel-arguments (append kernel-arguments %base-kernel-arguments)))))
+
+
+(load-systems)

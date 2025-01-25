@@ -3,6 +3,7 @@
   #:use-module (services)
   #:use-module (srfi srfi-9)    ; For define-record-type
   #:use-module (srfi srfi-1)    ; For fold and other list operations
+  #:use-module (guix records)
   #:export (feature
             feature?
             feature-name
@@ -28,12 +29,18 @@
 (define-record-type* <feature> %feature %make-feature
 ;   (feature name packages services env-vars features excludes)
   feature?
-  (name     feature-name)      ; String
-  (packages feature-packages)  ; List of packages
-  (services feature-services)  ; List of services
-  (env-vars feature-env-vars)  ; Association list
-  (modifies feature-modifies)  ; Modify-services clause list or #f
-  (excludes feature-excludes)) ; Excludes or #f
+  (name     feature-name       ; String
+	    (default "anonymous-feature"))
+  (packages feature-packages   ; List of packages 
+	    (default #f)) 
+  (services feature-services   ; List of services
+	    (default #f))
+  (env-vars feature-env-vars   ; Association list
+	    (default #f))
+  (modifies feature-modifies   ; Modify-services clause list
+	    (default #f))
+  (excludes feature-excludes   ; Excludes
+	    (default #f)))
 
 (define (merge-packages base additions)
   ;; Last package with a given name wins
@@ -100,7 +107,10 @@
 											(feature-services base)
 											(feature-services feature-b))))
 					(if (feature-modifies feature-b)
-	  					(modify-services merged-services (feature-modifies feature-b))
+						(begin
+							(display "modifying services")
+							(display (feature-modifies feature-b))
+	  						((macroexpand `(modify-services ,merged-services ,@(feature-modifies feature-b)))))
 						 merged-services)))
       (env-vars (merge-env-vars (feature-env-vars base)
                      (feature-env-vars feature-b)))

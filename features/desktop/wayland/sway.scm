@@ -13,7 +13,7 @@
 				mako
 				swaybg)
 	#:services (list (service home-sway-service-type))
-	#env-vars `(("XDG_CURRENT_DESKTOP" . "sway"))))
+	#:env-vars `(("XDG_CURRENT_DESKTOP" . "sway"))))
 
 (define-public sway-feature
   (feature "sway"
