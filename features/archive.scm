@@ -1,4 +1,6 @@
-(define-module (features)
+(define-module (features archive)
+  #:use-module (features core)
+
   #:use-module (packages)
   #:use-module (services)
   #:export (archive@minimal-feature archive-feature))

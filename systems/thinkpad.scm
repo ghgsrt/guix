@@ -3,22 +3,25 @@
 
 ;(load-homes)
 ;(load "/config/systems/shared.scm")
+(load "../systems.scm")
 
-(define-module (systems)
-;   #:use-module (systems base)
+(define-module (systems thinkpad)
+  #:use-module (gnu system file-systems)
+  #:use-module (systems)
   #:use-module (services)
 ;  #:use-module (lib path)
-  #:use-module (homes)
+;  #:use-module (homes)
   #:use-module (features)
+;  #:use-module (features core)
   #:use-module (users)
   #:use-module (packages)
   #:export (thinkpad-os))
 
 
-(define bosco-user-config
-  (user-config
-   (account bosco-user)
-   (home primary@minimal-home)))
+;(define bosco-user-config
+;  (user-config
+;   (account bosco-user)
+;   (home primary@minimal-home)))
 
 (define thinkpad-os-feature
   (feature "thinkpad-os"
@@ -31,13 +34,13 @@
 (define thinkpad-os
 	(feature->operating-system "thinkpad"
 		#:feature thinkpad-os-feature
-		#:users (list bosco-user-config)
+		#:users (list bosco-user)
 		#:kernel-arguments (list '("nohibernate"))
 		#:kernel-loadable-modules (list broadcom-sta)
 		#:swap-devices (list (swap-space
 							(target (uuid
 										"ccfae056-c3b1-4e1a-b432-e81f9715ae6d"))))
-		#:file-systems (cons* (file-system
+		#:file-systems (list (file-system
 								(mount-point "/home")
 								(device (uuid
 										"40e950a3-5484-49d6-a619-a397e2c57e26"
@@ -66,7 +69,7 @@
 ;(load-dir "/config/systems")
 
 (display "Loading THINKPAD-OS from module systems/thinkpad")
-
+thinkpad-os
 ; (define thinkpad-os
 ; 	(operating-system
 ; 		(inherit base-os)

@@ -1,6 +1,9 @@
-(define-module (features)
-  #:use-module (packages)
-  #:use-module (services)
+(define-module (features core)
+;  #:use-module (packages)
+;  #:use-module (services)
+ ; #:use-module (utils)
+  #:use-module (guix packages)
+  #:use-module (gnu services)
   #:use-module (srfi srfi-9)    ; For define-record-type
   #:use-module (srfi srfi-1)    ; For fold and other list operations
   #:use-module (guix records)
@@ -15,7 +18,8 @@
 			excludes
 			excludes?
 			excludes-packages
-			excludes-services))
+			excludes-services
+	    merge-features))
 
 
 (define-record-type* <excludes> excludes make-excludes
@@ -32,11 +36,11 @@
   (name     feature-name       ; String
 	    (default "anonymous-feature"))
   (packages feature-packages   ; List of packages 
-	    (default #f)) 
+	    (default '())) 
   (services feature-services   ; List of services
-	    (default #f))
+	    (default '()))
   (env-vars feature-env-vars   ; Association list
-	    (default #f))
+	    (default '()))
   (modifies feature-modifies   ; Modify-services clause list
 	    (default #f))
   (excludes feature-excludes   ; Excludes
@@ -58,20 +62,13 @@
   (fold-right
     (lambda (service result)
 	  (let ((type (service-kind service)))
-	  (if (simple-service? service)
-	  	(if (not (service-type-extend type))
-			(begin
-	          (format (current-error-port)
-                 "Warning: Service type ~a does not support extension (skipping)~%"
-                 (service-kind service))
-    	      result)
-	  		(cons service result))
-		(let ((existing (find (lambda (s)
-								(eq? (service-kind s) type))
-							result)))
-			(if existing
-				(delete existing result)
-				(cons service result))))))
+	  (if (service-type-extend type)
+		(cons service result)
+		(let ((existing (find (lambda (s) (eq? (service-kind s) type))
+				       result)))
+		 (if existing
+			(cons service (delete existing result))
+			(cons service result))))))
     base
     additions))
 
@@ -110,7 +107,7 @@
 						(begin
 							(display "modifying services")
 							(display (feature-modifies feature-b))
-	  						((macroexpand `(modify-services ,merged-services ,@(feature-modifies feature-b)))))
+	  						((macroexpand `(modify-services ,merged-services ,@(macroexpand (feature-modifies feature-b))))))
 						 merged-services)))
       (env-vars (merge-env-vars (feature-env-vars base)
                      (feature-env-vars feature-b)))
@@ -125,7 +122,13 @@
 	   packages))
 
 ;; Main feature constructor that applies the merging rules
-(define* (feature name #:key features packages services env-vars excludes modifies)
+(define* (feature name #:key 
+			(features '()) 
+			(packages '())	
+			(services '())
+			(env-vars '())
+			(excludes '())
+			(modifies '()))
   (fold-right merge-features
 			  (%feature (name name)) ; Empty starting feature
 			  (cons (%feature
@@ -135,7 +138,9 @@
 						(env-vars env-vars)
 						(modifies modifies)
 						(excludes excludes))
-					features)))
+					(or features '()))))
+
+;(load-features)
 
 ; (define (feature name #:key packages services env-vars excludes modifies)
 ;   (%feature

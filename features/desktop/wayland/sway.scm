@@ -1,8 +1,21 @@
-(define-module (features)
+(define-module (features desktop wayland sway)
+  #:use-module (features core)
+  #:use-module (features desktop wayland base)
   #:use-module (packages)
-  #:use-module (services))
+  #:use-module (services)
+  #:export (sway@minimal-feature
+	    sway-feature
+	    swayfx-ext
+	    sway@minimal:fx-feature
+	    sway:fx-feature))
 
-(define-public sway@minimal-feature
+(newline)
+(display "whatup")
+(newline)
+
+;(load "../wayland.scm")
+
+(define sway@minimal-feature
   (feature "sway@minimal"
     #:features (list wayland-feature)
     #:packages (list
@@ -30,7 +43,7 @@
 	#:excludes (excludes (packages (list sway)))
 	; #:services (list (service home-sway-service-type
 	; 					(sway-configuration (packages (list swayfx)))))
-	#:modifies (list (home-sway-service-type config =>
+	#:modifies (list `(home-sway-service-type config =>
 						(sway-configuration
 							(inherit config)
 							(packages (cons swayfx (sway-configuration-packages config))))))))

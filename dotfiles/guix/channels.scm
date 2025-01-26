@@ -1,4 +1,5 @@
-(use-modules (guix channels))
+(define-module (dotfiles guix channels)
+  #:use-module (guix channels))
 
 (cons* (channel
          (name 'nonguix)

@@ -1,4 +1,4 @@
-(define-module (utils)
+(define-module (utils path)
   #:use-module (ice-9 ftw)
   #:use-module (ice-9 match)
   #:use-module (ice-9 regex)
@@ -15,7 +15,8 @@
 (define* (load-dir dir
 				#:key
 				(exclude '()) ; List of regex patterns to exclude
-				(verbose #t))
+				(verbose #t)
+				(recursive #f))
   "Load all Scheme files recursively from DIR.
    Optional arguments:
    #:exclude - List of regex patterns for files/dirs to exclude
@@ -26,8 +27,7 @@
       (any (lambda (pattern)
              (regexp-exec pattern path))
            exclude-patterns))
-    (ftw dir
-         (lambda (filename statinfo flag)
+    (define (load-file filename statinfo flag)
            (match flag
              ('regular
               (when (and (regexp-exec scheme-file? filename)
@@ -42,13 +42,19 @@
                             "Error loading ~a: ~a ~a~%"
                             filename key args))))
               #t)
-             (_ (not (excluded? filename))))))))
+	    ; ('directory (or recursive 'skip))
+             (_ (not (excluded? filename))))) 
+
+    (if recursive (ftw dir load-file) (ftw dir load-file 1))))
 
 (define (load-packages)
   (load "/config/packages.scm"))
 (define (load-features)
-  (load "/config/features/core.scm")
-  (load-dir "/config/features"))
+;  (load "/config/features/core.scm")
+  ;(load "/config/features/desktop.scm")) 
+ (load-dir "/config/features")
+ (load-dir "/config/features/desktop")
+ (load-dir "/config/features/desktop/wayland"))
 (define (load-services)
   (load "/config/services.scm"))
 (define (load-homes)

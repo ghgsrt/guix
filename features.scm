@@ -1,11 +1,68 @@
-(define-module (features)
-  #:use-module (utils)
-  #:use-module (ice-9 ftw)
-  #:use-module (ice-9 match)
-  #:use-module (ice-9 regex))
+(define-module (features))
+ ; #:use-module (features core)
+ ; #:use-module (features desktop)
+ ; #:use-module (features manifest)
+ ; #:use-module (features dev)
+ ; #:use-module (features shell)
+ ; #:use-module (features terminal)
+ ; #:use-module (features virtualization)
+ ; #:use-module (features git)
+ ; #:use-module (features ssh)
+ ; #:use-module (features archive))
+
+(use-modules (features core)
+   (features desktop)
+   (features manifest)
+   (features dev)
+   (features shell)
+   (features terminal)
+   (features virtualization)
+   (features git)
+   (features ssh)
+   (features archive))
+
+
+
+;(define to-re-export '((features core)
+;   (features desktop)
+;   (features manifest)
+;   (features dev)
+;   (features shell)
+;   (features terminal)
+;   (features virtualization)
+;   (features git)
+;   (features ssh)
+;   (features archive)))
+;(display "interesting")(newline)
+;(eval (macroexpand `(use-modules ,@to-re-export)))
+;(display "bro")
+;(newline)
+;(load "./features/desktop.scm")
+;(display "huh")
+;(newline)
+;(load "./features/desktop/wayland.scm")
+;(display "balls")
+;(newline)
+
+(define-syntax re-export-list
+  (syntax-rules ()
+    ((re-export-list lst)
+	(begin      
+;		(display lst)
+		;(macroexpand `(use-modules ,@lst))
+		(macroexpand `(re-export ,@lst))))))
+;(re-export-list to-re-export)
+(re-export-list
+        (apply append (map
+                                       (lambda (inter)
+                                        (module-map (lambda (sym var) sym) inter))
+                                        (module-uses (current-module)))))
+
+;(display "for sure")(newline)
+
 
 ;; Load all scheme files from the directories
-(load-features)
+;(load-features)
 
 ;; Re-export all public bindings from any (env features) modules
 ;(let ((all-bindings

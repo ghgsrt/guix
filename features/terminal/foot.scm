@@ -1,4 +1,5 @@
-(define-module (features)
+(define-module (features terminal foot)
+  #:use-module (features core)
   #:use-module (packages)
   #:use-module (services)
   #:export (foot-feature))

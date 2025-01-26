@@ -1,5 +1,6 @@
 (define-module (packages)
   #:use-module (gnu)
+  #:use-module (gnu packages)
   #:use-module (nongnu packages fonts)
   #:use-module (nongnu packages messaging)
   #:use-module (nongnu packages chrome)
@@ -152,7 +153,7 @@
     (license license:silofl1.1)))
 
 ;; TODO install to right location where Kvantum can see it?
-(define-public sss-kv-yaru-colors
+(define-public kv-yaru-colors
   (package
     (name "kvantum-yaru-colors")
     (version "21.04")
@@ -656,29 +657,29 @@ SQL databases.  This package implements the interface for SQLite.")))
 
 
 
-(define-syntax test-packages
-  (syntax-rules ()
-    [(_) #'(dbus shared-mime-info)]))
+;(define-syntax test-packages
+;  (syntax-rules ()
+;    [(_) #'(dbus shared-mime-info)]))
 
-(define-syntax all-packages
-  (syntax-rules ()
-    [(_)
-      (with-syntax ([test (test-packages)])
-        #`(,@test))]))
+;(define-syntax all-packages
+;  (syntax-rules ()
+;    [(_)
+;      (with-syntax ([test (test-packages)])
+;        #`(,@test))]))
 
-(define-syntax do-re-exports
-  (lambda (stx)
-    (syntax-case stx ()
-      [(_)
-        (with-syntax ([pkgs (all-packages)])
-          #`(re-export ,@pkgs))])))
+;(define-syntax do-re-exports
+;  (lambda (stx)
+ ;   (syntax-case stx ()
+ ;     [(_)
+  ;      (with-syntax ([pkgs (all-packages)])
+ ;         #`(re-export ,@pkgs))])))
 ;(do-re-exports)
 
 ;(define tester '("hello" "world"))
 ;(display tester)
 ;(display @tester)
 
-(define test '(dbus))
+;(define test '(dbus))
 ;(display 
 ;  (macroexpand-1 
 ;    '(re-export-list test-packages)))

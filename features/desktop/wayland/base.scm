@@ -1,7 +1,13 @@
-(define-module (features)
+(define-module (features desktop wayland base)
+  #:use-module (features core)
+  #:use-module (features desktop base)
+  #:use-module (utils)
   #:use-module (packages)
   #:use-module (services)
   #:export (wayland-feature wayland@incompat-feature))
+
+(display "loading wayland")
+;(load "../desktop.scm")
 
 (define wayland@incompat-feature
   (feature "wayland@incompat"
@@ -26,7 +32,11 @@
 				 ("XMODIFIERS" . "@im=wayland")
 				 ("XCURSOR_SIZE" . "24"))))
 
-(define wayland-feature
+(define-public wayland-feature
   (feature "wayland"
     #:features (list wayland@incompat-feature)
     #:packages (list xorg-server-xwayland)))
+
+;(load-dir "/config/features/desktop/wayland" #:recursive #f)
+;(load-dir (string-append (dirname (current-filename)) "/wayland"))
+

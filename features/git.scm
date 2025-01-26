@@ -1,4 +1,5 @@
-(define-module (features)
+(define-module (features git)
+  #:use-module (features core)
   #:use-module (packages)
   #:use-module (services)
   #:export (git-feature))

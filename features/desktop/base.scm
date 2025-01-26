@@ -1,9 +1,13 @@
-(define-module (features)
+(define-module (features desktop base)
+  #:use-module (features core)
+  #:use-module (utils)
   #:use-module (packages)
   #:use-module (services)
   #:export (desktop-feature))
 
+;(load "./core.scm")
 (display dbus)
+(newline)
 
 (define desktop-feature
   (feature "desktop"
@@ -21,3 +25,8 @@
       ;(service home-polkit-gnome-service-type
        ;        (home-polkit-gnome-configuration
         ;        (client polkit-gnome-authentication-agent-1))))))
+
+;(load-dir "/config/features/desktop" #:recursive #f)
+
+;(load-dir (string-append (dirname (current-filename)) "/desktop"))
+;(load-dir (string-append (dirname (current-filename)) "/desktop/wayland"))

@@ -1,21 +1,30 @@
 (define-module (systems)
-  #:use-module (utils)
-  #:use-module (users)
+  #:use-module (gnu system)
+  #:use-module (gnu system file-systems)
+  #:use-module (gnu system keyboard)
+  #:use-module (gnu bootloader)
+  #:use-module (gnu bootloader grub)
+ ; #:use-module (utils)
+ ; #:use-module (users)
   #:use-module (packages)
   #:use-module (services)
-  #:use-module (features)
-  #:use-module (homes)
+ ; #:use-module (features)
+  #:use-module (features core)
+  #:use-module (features git)
+  #:use-module (features ssh)
+;  #:use-module (homes)
   #:use-module (guix records)
   #:export (%base-os
   			%base-os-feature
 			feature->operating-system
 			user-config))
 
+;(load "../features.scm")
 
 (define %base-os-feature
   (feature "base-os"
-    #:packages (list git
-					 tmux
+    #:features (list git-feature ssh-feature)
+    #:packages (list 			 tmux
 					 coreutils)
   	#:services (list (service network-manager-service-type)
                  	 (service wpa-supplicant-service-type)
@@ -33,7 +42,7 @@
 
     ;; Don't forget to add any necessary kernel-modules!
 
-    (firmware (list sof-firmware linux-firmware))
+    (firmware (append (list sof-firmware linux-firmware) %base-firmware))
 
 
     (bootloader (bootloader-configuration
@@ -57,27 +66,27 @@
 								  (feature '())
                                   (base-os %base-os)
                                   (base-feature %base-os-feature)
-                                  (users '())      ; List of user-configs
-                                  (extra-homes '())
+                                  (users '())     
+                                 ; (extra-homes '())
 								  (firmware '())
 								  (swap-devices '())
 								  (file-systems '())
 								  (kernel-loadable-modules '())
 								  (kernel-arguments '()))  ; List of standalone home environments
-  (let* ((merged-feature (if feature
+  (let ((merged-feature (if feature
   							(merge-features base-feature feature)
-							 base-feature))
+							 base-feature)))
          ;; Create home services for users with home features
-         (user-home-services
-           (map (lambda (user)
-                        (let ((user-home (user-config-home user))
-							  (user-name (user-account-name
-                                                (user-config-account user))))
-                               (simple-service (string-append user-name "-home") guix-home-service-type
-                                       (if user-home
-									   `((,user-name ,user-home))
-									   `((,user-name ,%base-home))))))
-                      users)))
+        ; (user-home-services
+         ;  (map (lambda (user)
+          ;              (let ((user-home (user-config-home user))
+	;						  (user-name (user-account-name
+         ;                                       (user-config-account user))))
+          ;                     (simple-service (string-append user-name "-home") guix-home-service-type
+           ;                            (if user-home
+	;								   `((,user-name ,user-home))
+	;								   `((,user-name ,%base-home))))))
+;                      users)))
     (operating-system
 	  (inherit base-os)
 	  (host-name name)
@@ -86,16 +95,16 @@
 			%base-packages))
       (services
         (append
-		  (service guix-home-service-type `(("root" ,%base-home)))
-          user-home-services
+	;	  (service guix-home-service-type `(("root" ,%base-home)))
+         ; user-home-services
           (feature-services merged-feature)
 		  %base-services))
-      (users (append (map user-config-account users) %base-user-accounts))
-	  (firmware (append firmware %base-firmware))
+      (users (append users %base-user-accounts))
+	  (firmware (append firmware (operating-system-firmware base-os)))
 	  (swap-devices swap-devices)
 	  (file-systems (append file-systems %base-file-systems))
 	  (kernel-loadable-modules kernel-loadable-modules)
-	  (kernel-arguments (append kernel-arguments %base-kernel-arguments)))))
+	  (kernel-arguments (append kernel-arguments %default-kernel-arguments)))))
 
 
-(load-systems)
+;(load-systems)

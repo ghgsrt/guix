@@ -1,5 +1,5 @@
-(define-module (utils)
-  #:use-module (utils path))
+(define-module (features virtualization)
+  #:use-module (features virtualization podman))
 
 (define-syntax re-export-list
   (syntax-rules ()
@@ -7,10 +7,7 @@
       (macroexpand `(re-export ,@lst)))))
 (re-export-list
         (apply append (map
-                                        (lambda (inter)
-                                                (module-map (lambda (sym var) sym) >
+                                       (lambda (inter)
+                                        (module-map (lambda (sym var) sym) inter))
                                         (module-uses (current-module)))))
 
-
-;(load "./utils/path.scm")
-;(load-utils)

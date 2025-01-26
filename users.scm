@@ -1,4 +1,5 @@
-(define-module (users))
+(define-module (users)
+  #:use-module (gnu system accounts))
 ;   #:use-module (lib path))
 
 ; (load-users)

@@ -1,4 +1,5 @@
-(define-module (features)
+(define-module (features dev guile)
+  #:use-module (features core)
   #:use-module (packages)
   #:use-module (services)
   #:export (guile-feature))

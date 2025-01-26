@@ -1,5 +1,6 @@
-(define-module (utils)
-  #:use-module (utils path))
+(define-module (features terminal)
+;  #:use-module (features terminal wezterm)
+  #:use-module (features terminal foot))
 
 (define-syntax re-export-list
   (syntax-rules ()
@@ -8,9 +9,5 @@
 (re-export-list
         (apply append (map
                                         (lambda (inter)
-                                                (module-map (lambda (sym var) sym) >
+                                        (module-map (lambda (sym var) sym) inter))
                                         (module-uses (current-module)))))
-
-
-;(load "./utils/path.scm")
-;(load-utils)

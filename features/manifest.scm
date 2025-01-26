@@ -1,4 +1,5 @@
-(define-module (features)
+(define-module (features manifest)
+  #:use-module (features core)
   #:use-module (packages)
   #:use-module (services)
   #:use-module (guix gexp)

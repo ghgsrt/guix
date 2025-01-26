@@ -1,4 +1,5 @@
-(define-module (features)
+(define-module (features desktop qt)
+  #:use-module (features core)
   #:use-module (packages)
   #:use-module (services)
   #:export (qt-feature))
