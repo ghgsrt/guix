@@ -1,17 +1,20 @@
 (define-module (systems)
   #:use-module (gnu system)
   #:use-module (gnu system file-systems)
+  #:use-module (gnu system nss)
   #:use-module (gnu system keyboard)
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
  ; #:use-module (utils)
  ; #:use-module (users)
+  #:use-module (nongnu packages linux)
+  #:use-module (nongnu system linux-initrd)
   #:use-module (packages)
   #:use-module (services)
- ; #:use-module (features)
-  #:use-module (features core)
-  #:use-module (features git)
-  #:use-module (features ssh)
+  #:use-module (features)
+  ;#:use-module (features core)
+  ;#:use-module (features git)
+  ;#:use-module (features ssh)
 ;  #:use-module (homes)
   #:use-module (guix records)
   #:export (%base-os
@@ -25,10 +28,24 @@
   (feature "base-os"
     #:features (list git-feature ssh-feature)
     #:packages (list 			 tmux
+					curl
+                                        ripgrep
+                                        fd
+                                        tree
+                                        dstat
+                                        ncurses
+                                        openssl
+                                        net-tools
+                                        dconf-editor
 					 coreutils)
-  	#:services (list (service network-manager-service-type)
+     #:services (list    (service network-manager-service-type)
                  	 (service wpa-supplicant-service-type)
-                 	 (service ntp-service-type))))
+                 	 (service ntp-service-type))
+     #:env-vars '(("GUIX_PACKAGE_PATH" . "/config")
+                                ("LC_COLLATE" . "C")
+                                ("LESS" . "-R")  ; Enable color output in less
+                                ("PAGER" . "less"))))
+
 
 (define %base-os
   (operating-system
@@ -37,13 +54,21 @@
     (keyboard-layout (keyboard-layout "us"))
     (host-name "guix")
 
-    (kernel linux)
-    (initrd microcode-initrd)
+    (kernel (@ (nongnu packages linux) linux))
+    (initrd (@ (nongnu system linux-initrd) microcode-initrd))
 
     ;; Don't forget to add any necessary kernel-modules!
 
-    (firmware (append (list sof-firmware linux-firmware) %base-firmware))
+    (firmware (append (list sof-firmware 
+			    (@ (nongnu packages linux) linux-firmware)) 
+		       %base-firmware))
 
+
+;    (services (list 
+;			))
+
+    ;; Allow resolution of '.local' host names with mDNS
+    (name-service-switch %mdns-host-lookup-nss)
 
     (bootloader (bootloader-configuration
 					(bootloader grub-efi-bootloader)
@@ -72,7 +97,7 @@
 								  (swap-devices '())
 								  (file-systems '())
 								  (kernel-loadable-modules '())
-								  (kernel-arguments '()))  ; List of standalone home environments
+								  (kernel-arguments '()))
   (let ((merged-feature (if feature
   							(merge-features base-feature feature)
 							 base-feature)))
@@ -98,7 +123,16 @@
 	;	  (service guix-home-service-type `(("root" ,%base-home)))
          ; user-home-services
           (feature-services merged-feature)
-		  %base-services))
+		  
+  (list 		(service upower-service-type)
+			(service x11-socket-directory-service-type)
+                       (service seatd-service-type)
+			fontconfig-file-system-service
+                        polkit-wheel-service
+                       (service polkit-service-type)
+                        (service dbus-root-service-type)
+)
+ %base-services))
       (users (append users %base-user-accounts))
 	  (firmware (append firmware (operating-system-firmware base-os)))
 	  (swap-devices swap-devices)

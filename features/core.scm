@@ -3,6 +3,7 @@
 ;  #:use-module (services)
  ; #:use-module (utils)
   #:use-module (guix packages)
+  #:use-module (gnu packages)
   #:use-module (gnu services)
   #:use-module (srfi srfi-9)    ; For define-record-type
   #:use-module (srfi srfi-1)    ; For fold and other list operations

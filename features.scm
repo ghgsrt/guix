@@ -1,4 +1,6 @@
+;(load "./packages.scm")
 (define-module (features))
+;  #:use-module (utils path))
  ; #:use-module (features core)
  ; #:use-module (features desktop)
  ; #:use-module (features manifest)
@@ -9,6 +11,9 @@
  ; #:use-module (features git)
  ; #:use-module (features ssh)
  ; #:use-module (features archive))
+
+;(load "/config/features/core.scm")
+;(load-dir "/config/features")
 
 (use-modules (features core)
    (features desktop)

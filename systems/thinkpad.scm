@@ -7,6 +7,8 @@
 
 (define-module (systems thinkpad)
   #:use-module (gnu system file-systems)
+  #:use-module (gnu packages firmware)
+  #:use-module (nongnu packages linux)
   #:use-module (systems)
   #:use-module (services)
 ;  #:use-module (lib path)
@@ -26,28 +28,27 @@
 (define thinkpad-os-feature
   (feature "thinkpad-os"
 	#:packages (list tlp)
-	#:services (list (service tlp-service-type)
-					 (service bluetooth-service-type
-						(bluetooth-configuration (experimental #t)
-												 (auto-enable? #t))))))
+	#:services (list (service tlp-service-type
+				(tlp-configuration
+					(cpu-boost-on-ac? #t)
+					(wifi-pwr-on-bat? #t)))
+			 (service bluetooth-service-type
+				(bluetooth-configuration
+					(auto-enable? #t))))))
 
 (define thinkpad-os
 	(feature->operating-system "thinkpad"
 		#:feature thinkpad-os-feature
 		#:users (list bosco-user)
-		#:kernel-arguments (list '("nohibernate"))
-		#:kernel-loadable-modules (list broadcom-sta)
+		
+ 		#:firmware (list broadcom-bt-firmware)
+		#:kernel-arguments '("modprobe.blacklist=b43,b43legacy,ssb,bcm43xx,brcm80211,brcmfmac,brcmsmac,bcma")
+		#:kernel-loadable-modules (list (@ (nongnu packages linux) broadcom-sta))
 		#:swap-devices (list (swap-space
 							(target (uuid
 										"ccfae056-c3b1-4e1a-b432-e81f9715ae6d"))))
 		#:file-systems (list (file-system
 								(mount-point "/home")
-								(device (uuid
-										"40e950a3-5484-49d6-a619-a397e2c57e26"
-										'ext4))
-								(type "ext4"))
-							(file-system
-								(mount-point "/")
 								(device (uuid
 										"40e950a3-5484-49d6-a619-a397e2c57e26"
 										'ext4))
@@ -69,7 +70,9 @@
 ;(load-dir "/config/systems")
 
 (display "Loading THINKPAD-OS from module systems/thinkpad")
+
 thinkpad-os
+
 ; (define thinkpad-os
 ; 	(operating-system
 ; 		(inherit base-os)

@@ -1,13 +1,18 @@
+
+;(load "/config/features.scm")
 (define-module (homes primary)
   #:use-module (homes base)
   #:use-module (packages)
   #:use-module (services)
+  ;#:use-module (features core)
   #:use-module (features)
-;  #:use-module (features core)
+;  #:use-module (features archive)
+;  #:use-module (features desktop wayland sway) 
  ; #:use-module (features desktop wayland)
   #:export (primary@minimal-home
 			primary-home))
 
+;(load "../features/archive.scm")
 ;(display "loading features")
 ;(newline)
 ;(load "../features.scm")
@@ -16,8 +21,8 @@
 
 (define primary@minimal-home-feature
 	(feature "primary@minimal-home"
-		#:features (list sway@minimal-feature
-						 qt-feature
+		#:features (list ; sway@minimal-feature
+;						 qt-feature
 						 ;(wezterm-feature)
 						 foot-feature
 						 zsh-feature
@@ -41,3 +46,5 @@
 						 "docker-compose")))
 (define primary-home
 	(feature->home-environment primary-home-feature))
+
+primary@minimal-home

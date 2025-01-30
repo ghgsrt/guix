@@ -1,8 +1,8 @@
 (define-module (features archive)
   #:use-module (features core)
-
   #:use-module (packages)
   #:use-module (services)
+;  #:use-module (gnu packages compression)
   #:export (archive@minimal-feature archive-feature))
 
 (define archive@minimal-feature

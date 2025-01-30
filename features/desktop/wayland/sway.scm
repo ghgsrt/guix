@@ -19,7 +19,7 @@
   (feature "sway@minimal"
     #:features (list wayland-feature)
     #:packages (list
-				sway
+;				sway
 				swaylock
 				swayidle
 				;   lxsession
@@ -39,14 +39,14 @@
 
 (define-public swayfx-ext
   (feature "swayfx-ext"
-	#:packages (list swayfx)
-	#:excludes (excludes (packages (list sway)))
+;	#:packages (list swayfx)
+;	#:excludes (excludes (packages (list sway)))
 	; #:services (list (service home-sway-service-type
 	; 					(sway-configuration (packages (list swayfx)))))
 	#:modifies (list `(home-sway-service-type config =>
 						(sway-configuration
 							(inherit config)
-							(packages (cons swayfx (sway-configuration-packages config))))))))
+							(packages (list swayfx)))))))
 
 (define-public sway@minimal:fx-feature
   (feature "sway@minimal:fx"

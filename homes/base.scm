@@ -10,23 +10,15 @@
 (define %base-home-feature
   (feature "base-home"
    #:features (list manifest-feature
-					guile-feature
-					git-feature
-					ssh-feature)
-   #:packages (list curl
-					ripgrep
-					fd
-					tree
-					gcc
-					dstat)
-   #:services (list (service home-dotfiles-service-type
+					guile-feature)
+   #:packages (list 
+					gcc)
+   #:services (list 
+			(service home-dotfiles-service-type
 						(home-dotfiles-configuration
-						(directories '("../../dotfiles")))))
-   #:env-vars '(("GUIX_PACKAGE_PATH" . "/config")
-				("GUIX_LOCPATH" . "$home/.guix-profile/lib/locale")
-				("PATH" . "$HOME/.local/bin:$PATH")
-				("LESS" . "-R")  ; Enable color output in less
-				("PAGER" . "less"))))
+						(directories '("../dotfiles")))))
+   #:env-vars '(("GUIX_LOCPATH" . "$home/.guix-profile/lib/locale")
+				("PATH" . "$HOME/.local/bin:$PATH"))))
 
 (define* (feature->home-environment home-feature
                                   #:key
@@ -43,7 +35,7 @@
                             base-services))))
     (home-environment
       (packages (feature-packages merged-feature))
-      (services services))))
+      (services (cons (service home-sway-service-type) services)))))
 ;      (home-directory (or home-directory
 ;						  (if user (string-append "/home/" user) "/"))))))
 ;(load-homes)

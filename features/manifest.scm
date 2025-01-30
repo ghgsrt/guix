@@ -10,9 +10,9 @@
    #:services (list
 				(service home-files-service-type
 					`((".local/bin/generate-manifest"
-						,(local-file "/config/env/scripts/generate-manifest.sh" "generate-manifest"))
+						,(local-file "/config/scripts/generate-manifests.sh" "generate-manifest"))
 					  (".config/bash/manifest-cd.sh"
-						,(local-file "/config/env/scripts/manifest-cd.sh"))))
+						,(local-file "/config/scripts/manifest-cd.sh"))))
 				(service home-bash-service-type
 						(home-bash-configuration
 							(bashrc (list (plain-file

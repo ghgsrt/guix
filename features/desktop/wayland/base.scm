@@ -1,6 +1,7 @@
 (define-module (features desktop wayland base)
   #:use-module (features core)
   #:use-module (features desktop base)
+  #:use-module (features desktop qt)
   #:use-module (utils)
   #:use-module (packages)
   #:use-module (services)
@@ -11,24 +12,28 @@
 
 (define wayland@incompat-feature
   (feature "wayland@incompat"
-	#:features (list desktop-feature)
+	#:features (list desktop-feature qt-feature)
     #:packages (list
-      wayland
+	qtwayland-5
+;          wayland
 	  wl-clipboard
 	  wl-color-picker
 	  rofi-wayland
       libxkbcommon
       mesa
-      fontconfig)
+	xdg-desktop-portal-wlr)
     #:env-vars `(("WAYLAND_DISPLAY" . "wayland-0")
 				 ("XDG_SESSION_TYPE" . "wayland")
 				 ("GDK_BACKEND" . "wayland")
 				 ("GTK_IM_MODULE" . "wayland")
-				 ("SDL_VIDEODRIVER" . "wayland")
 				 ("QT_IM_MODULE" . "wayland")
 				 ("QT_QPA_PLATFORM" . "wayland")
 				 ("QT_QPT_PLATFORM" . "wayland")
 				 ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . "1")
+				 ("SDL_VIDEODRIVER" . "wayland")
+				 ("CLUTTER_BACKEND" . "wayland")
+				 ("ELM_ENGINE" . "wayland-egl")
+				 ("ECORE_EVAS_ENGINE" . "wayland-egl")
 				 ("XMODIFIERS" . "@im=wayland")
 				 ("XCURSOR_SIZE" . "24"))))
 
@@ -39,4 +44,5 @@
 
 ;(load-dir "/config/features/desktop/wayland" #:recursive #f)
 ;(load-dir (string-append (dirname (current-filename)) "/wayland"))
+
 

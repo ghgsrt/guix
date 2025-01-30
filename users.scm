@@ -10,4 +10,9 @@
 		(comment "Bosco")
 		(group "users")
 		(home-directory "/home/bosco")
-		(supplementary-groups '("wheel" "netdev" "audio" "video"))))
+		(supplementary-groups '("wheel" 
+					"netdev" 
+					"audio" 
+					"video"
+					"seat"
+					"lp"))))
