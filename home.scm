@@ -13,6 +13,7 @@
 (define* (ghg-home-service-type name #:key (packages '()) (env-vars '()))
 	(service-type
 		(name name)
+		(description "A service type for home environments.")
 		(extensions (append (if (null? packages) '() (list (service-extension home-profile-service-type
 															(lambda (_) packages))))
 						 	(if (null? env-vars) '() (list (service-extension home-environment-services-service-type
