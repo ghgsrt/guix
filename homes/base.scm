@@ -26,12 +26,12 @@
                                   (user #f)
                                   (home-directory #f))
   (let* ((merged-feature (merge-features base-home-feature home-feature))
-         (env-vars (feature-env-vars merged-feature))
+         (env-vars (begin (display merged-feature) (feature-env-vars merged-feature)))
          (base-services (feature-services merged-feature))
          (services (if (null? env-vars)
                       base-services
                       (cons (simple-service 'home-env-vars-service home-environment-variables-service-type
-                                   env-vars)
+                                   `,env-vars)
                             base-services))))
     (home-environment
       (packages (feature-packages merged-feature))

@@ -1,3 +1,4 @@
+(load "./homes.scm")
 (define-module (systems)
   #:use-module (gnu system)
   #:use-module (gnu system file-systems)
@@ -12,6 +13,7 @@
   #:use-module (packages)
   #:use-module (services)
   #:use-module (features)
+  #:use-module (homes primary)
   ;#:use-module (features core)
   ;#:use-module (features git)
   ;#:use-module (features ssh)
@@ -125,6 +127,8 @@
           (feature-services merged-feature)
 		  
   (list 		(service upower-service-type)
+		(guix-home-service-type
+			`(("bosco" ,primary-home)))
 			(service x11-socket-directory-service-type)
                        (service seatd-service-type)
 			fontconfig-file-system-service

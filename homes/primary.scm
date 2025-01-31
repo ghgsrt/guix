@@ -48,3 +48,5 @@
 	(feature->home-environment primary-home-feature))
 
 primary@minimal-home
+
+;(display primary@minimal-home)

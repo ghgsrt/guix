@@ -24,6 +24,7 @@
     (gnu services cups)
     (gnu services virtualization)
     (gnu services mcron)
+    (gnu services guix)
     (gnu services pm)
 	(gnu home)
   	(gnu home services)
