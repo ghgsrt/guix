@@ -1,4 +1,4 @@
-(define-module (system)
+(define-module (system base)
   #:use-module (packages)
   #:use-module (services)
   #:export (%ghg-base-os

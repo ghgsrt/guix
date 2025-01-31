@@ -1,5 +1,5 @@
 (define-module (system thinkpad)
-  #:use-module (system)
+  #:use-module (system base)
   #:use-module (services)
   #:use-module (packages)
   #:use-module (users)

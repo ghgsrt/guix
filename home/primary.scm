@@ -1,5 +1,6 @@
 (define-module (home primary)
   #:use-module (home)
+  #:use-module (home base)
   #:use-module (home services desktop)
   #:use-module (home services terminals)
   #:use-module (home services shells)
