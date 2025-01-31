@@ -16,6 +16,6 @@
 		(description "A service type for home environments.")
 		(extensions (append (if (null? packages) '() (list (service-extension home-profile-service-type
 															(lambda (_) packages))))
-						 	(if (null? env-vars) '() (list (service-extension home-environment-services-service-type
+						 	(if (null? env-vars) '() (list (service-extension home-environment-variables-service-type
 															(lambda (_) env-vars))))))
 		(default-value #f)))
