@@ -15,11 +15,11 @@
 		#:env-vars '(("EDITOR" . "emacs")
 				     ("VISUAL" . "emacs"))))
 
-(define primary@minimal-home (compose-home
+(define primary@minimal-home
 	(home-environment
 		(services (append (list (service primary@minimal-home-service-type))
+						  %ghg-base-home-services
 						  sway@minimal-services
 						  foot-services
 						  zsh-services
-						  archive@minimal-services)))
-	%ghg-base-home))
+						  archive@minimal-services))))

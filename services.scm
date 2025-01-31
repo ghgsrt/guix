@@ -41,7 +41,9 @@
 			 (gnu home services desktop)
 
 			 (gnu system accounts)
-			 (gnu system shadow))
+			 (gnu system shadow)
+
+			 (guix gexp))
 
 (define-syntax re-export-list
   (syntax-rules ()

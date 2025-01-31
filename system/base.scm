@@ -1,4 +1,6 @@
 (define-module (system base)
+  #:use-module (gnu bootloader)
+  #:use-module (gnu bootloader grub)
   #:use-module (packages)
   #:use-module (services)
   #:export (%ghg-base-os
@@ -39,7 +41,7 @@
 						   %base-firmware))
 
 		(packages (append %ghg-base-packages %base-packages))
-		(services (append %ghg-base-services %base-services))
+		;(services (append %ghg-base-services %base-services))
 
 		;; Allow resolution of '.local' host names with mDNS
 		(name-service-switch %mdns-host-lookup-nss)

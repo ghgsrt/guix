@@ -3,6 +3,7 @@
   #:use-module (ice-9 regex)
   #:use-module (ice-9 format)
   #:use-module (srfi srfi-1)
+  #:use-module (guix records)
   #:export (generate-project-manifest feature->manifest))
 
 (define* (feature->manifest feature #:key (versions '()))

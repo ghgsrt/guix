@@ -10,7 +10,7 @@
 			sway-services
 			sway:fx-services))
 
-;; ~~ Base ~~
+;; ~~ Base ~~ -- NOTE: 'desktop-services' MUST be used directly on the OS, NOT ON A HOME ENV
 
 (define desktop-service-type
 	(ghg-home-service-type 'ghg-desktop
@@ -24,13 +24,13 @@
 
 (define (_desktop-services)
 	(list (service desktop-service-type)
-  		(service upower-service-type)
-		(service x11-socket-directory-service-type)
-        (service seatd-service-type)
-		fontconfig-file-system-service
+		(service seatd-service-type)
+                fontconfig-file-system-service
         polkit-wheel-service
         (service polkit-service-type)
-        (service dbus-root-service-type)))
+        (service dbus-root-service-type)
+  		(service upower-service-type)
+		(service x11-socket-directory-service-type)))
 (define-syntax desktop-services
 	(identifier-syntax (_desktop-services)))
 
@@ -88,8 +88,7 @@
 					 ("XCURSOR_SIZE" . "24"))))
 
 (define (_wayland-services)
-	(cons (service wayland-service-type)
-		   desktop-services))
+	(list (service wayland-service-type)))
 (define-syntax wayland-services
 	(identifier-syntax (_wayland-services)))
 
@@ -125,12 +124,14 @@
 (define-syntax sway-services
 	(identifier-syntax (_sway-services)))
 
+;(display sway-services)
+
 ;; Sway:fx
-(define (sway:fx-services)
-	(modify-services sway-services
-					 (list (home-sway-service-type config =>
-							(sway-configuration
-								(inherit config)
-								(packages (list swayfx)))))))
-(define-syntax sway:fx-services
-	(identifier-syntax (sway:fx-services)))
+;(define (sway:fx-services)
+;	(modify-services sway-services
+;					 (list (home-sway-service-type config =>
+;							(sway-configuration
+;								(inherit config)
+;								(packages (list swayfx)))))))
+;(define-syntax sway:fx-services
+;	(identifier-syntax (sway:fx-services)))

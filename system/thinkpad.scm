@@ -4,6 +4,7 @@
   #:use-module (packages)
   #:use-module (users)
   #:use-module (home primary)
+  #:use-module (home services desktop)
   #:export (thinkpad-os
   			thinkpad-packages
 			thinkpad-services))
@@ -12,15 +13,17 @@
 	(list tlp))
 
 (define (thinkpad-base-services)
-	(list (guix-home-service-type
-			`(("bosco" ,primary-home)))
+	(append desktop-services
+ (list 
+(service guix-home-service-type
+			`(("bosco" ,primary@minimal-home)))
 		  (service tlp-service-type
 			(tlp-configuration
 				(cpu-boost-on-ac? #t)
 				(wifi-pwr-on-bat? #t)))
 		  (service bluetooth-service-type
 			(bluetooth-configuration
-				(auto-enable? #t)))))
+				(auto-enable? #t))))))
 (define-syntax thinkpad-services
 	(identifier-syntax (thinkpad-base-services)))
 
@@ -33,7 +36,7 @@
 					(operating-system-users %ghg-base-os)))
 
 		(kernel-arguments (append '("modprobe.blacklist=b43,b43legacy,ssb,bcm43xx,brcm80211,brcmfmac,brcmsmac,bcma")
-								   (operating-system-kernel-arguments %ghg-base-os)))
+								   (operating-system-kernel-arguments %ghg-base-os "/dev/disk/by-label/root")))
 		(kernel-loadable-modules (list (@ (nongnu packages linux) broadcom-sta)))
 
  		(firmware (cons broadcom-bt-firmware
@@ -42,7 +45,7 @@
 		(packages (append thinkpad-packages
 						 (operating-system-packages %ghg-base-os)))
 		(services (append thinkpad-services
-						 (operating-system-services %ghg-base-os)))
+				%ghg-base-services %base-services ))
 
 		(swap-devices (list (swap-space
 							(target (uuid
@@ -63,8 +66,8 @@
 								(mount-point "/boot/efi")
 								(device (uuid "474C-5E8A"
 											'fat32))
-								(type "vfat")
-							%base-file-systems)))))
+								(type "vfat"))
+							%base-file-systems))))
 
 (display "Loading THINKPAD-OS from module systems/thinkpad")
 
