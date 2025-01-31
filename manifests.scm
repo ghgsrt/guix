@@ -276,7 +276,7 @@
 ;; Check if minimum requirement is met
 (define (minimum-satisfied? entry found-tools)
   (let ((min (manifest-minimum entry))
-        (matching-tools 
+        (matching-tools
          (filter (lambda (found)
                   (assoc (car found) (manifest-depends entry)))
                 found-tools)))
@@ -289,11 +289,11 @@
       (every (lambda (required-tool)
               (and (assoc required-tool found-tools)
                    ;; Also verify version requirements
-                   (let ((dep-version (assoc-ref (manifest-depends entry) 
+                   (let ((dep-version (assoc-ref (manifest-depends entry)
                                                required-tool))
-                         (found-version (assoc-ref found-tools 
+                         (found-version (assoc-ref found-tools
                                                  required-tool)))
-                     (version-satisfies? 
+                     (version-satisfies?
                       (parse-version-requirement dep-version)
                       found-version))))
             min))
@@ -307,7 +307,7 @@
             (if found-tool
                 (let ((req-spec (parse-version-requirement (cdr dep)))
                      (actual-version (cdr found-tool)))
-                  (if (and allow-higher? 
+                  (if (and allow-higher?
                           (eq? (car req-spec) 'exact))
                       (>= (version-compare actual-version (cadr req-spec)) 0)
                       (version-satisfies? req-spec actual-version)))
@@ -386,7 +386,7 @@
             ;; Compare next tool's version requirements
             (let* ((tool (car tools))
                    (found-version (assoc-ref found-tools tool))
-                   (ver-compare (compare-tool-versions 
+                   (ver-compare (compare-tool-versions
                                e1 e2 tool found-version)))
               (if (= 0 ver-compare)
                   (loop (cdr tools))

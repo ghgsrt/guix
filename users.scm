@@ -1,8 +1,5 @@
 (define-module (users)
   #:use-module (gnu system accounts))
-;   #:use-module (lib path))
-
-; (load-users)
 
 (define-public bosco-user
 	(user-account
@@ -10,9 +7,9 @@
 		(comment "Bosco")
 		(group "users")
 		(home-directory "/home/bosco")
-		(supplementary-groups '("wheel" 
-					"netdev" 
-					"audio" 
-					"video"
-					"seat"
-					"lp"))))
+		(supplementary-groups '("wheel"
+								"netdev"
+								"audio"
+								"video"
+								"seat"
+								"lp"))))
