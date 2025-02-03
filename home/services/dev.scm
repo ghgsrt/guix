@@ -9,6 +9,7 @@
 (define guile-packages-service-type
 	(ghg-home-service-type 'ghg-guile-packages
 		#:packages (list guile-fibers
+						guile-colorized
 						 guile-g-golf
 						 guile-json-4
 						 guile-uuid)))

@@ -10,10 +10,10 @@
 			thinkpad-services))
 
 (define thinkpad-packages
-	(list tlp))
+	(cons tlp %ghg-desktop-packages))
 
 (define (thinkpad-base-services)
-	(append desktop-services
+	(append (modify-services %desktop-services (delete gdm-service-type))
  (list 
 (service guix-home-service-type
 			`(("bosco" ,primary@minimal-home)))
@@ -45,7 +45,7 @@
 		(packages (append thinkpad-packages
 						 (operating-system-packages %ghg-base-os)))
 		(services (append thinkpad-services
-				%ghg-base-services %base-services ))
+				%ghg-base-services ))
 
 		(swap-devices (list (swap-space
 							(target (uuid

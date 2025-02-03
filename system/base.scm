@@ -22,9 +22,11 @@
 		  coreutils))
 
 (define %ghg-base-services
-	(list (service network-manager-service-type)
-		  (service wpa-supplicant-service-type)
-		  (service ntp-service-type)))
+	(list 
+;(service network-manager-service-type)
+;		  (service wpa-supplicant-service-type)
+		  ;(service ntp-service-type)
+))
 
 (define %ghg-base-os
 	(operating-system
@@ -39,9 +41,16 @@
 		(firmware (append (list sof-firmware
 							   (@ (nongnu packages linux) linux-firmware))
 						   %base-firmware))
-
+		
 		(packages (append %ghg-base-packages %base-packages))
-		;(services (append %ghg-base-services %base-services))
+		(services (append %ghg-base-services %base-services))
+
+		(groups (cons (user-group (system? #t) (name "seat")) %base-groups))
+
+		(sudoers-file (plain-file "sudoers"
+					  (string-join '("root ALL=(ALL) NOPASSWD:ALL"
+							 "%wheel ALL=(ALL) NOPASSWD:ALL")
+							"\n")))
 
 		;; Allow resolution of '.local' host names with mDNS
 		(name-service-switch %mdns-host-lookup-nss)

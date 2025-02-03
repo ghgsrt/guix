@@ -23,3 +23,4 @@
 						  foot-services
 						  zsh-services
 						  archive@minimal-services))))
+primary@minimal-home
