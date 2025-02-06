@@ -10,6 +10,8 @@
 		(supplementary-groups '("wheel"
 								"netdev"
 								"audio"
+								"input"
+								"tty"
 								"video"
 								"seat"
 								"lp"))))

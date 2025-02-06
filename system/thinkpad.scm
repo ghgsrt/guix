@@ -4,6 +4,7 @@
   #:use-module (packages)
   #:use-module (users)
   #:use-module (home primary)
+  #:use-module (dotfiles guix channels)
   #:use-module (home services desktop)
   #:export (thinkpad-os
   			thinkpad-packages
@@ -12,9 +13,43 @@
 (define thinkpad-packages
 	(cons tlp %ghg-desktop-packages))
 
+(define %greetd-conf (string-append "/home/bosco/.guixos-sway/"
+                                    "files/sway/sway-greetd.conf"))
+
+
 (define (thinkpad-base-services)
-	(append (modify-services %desktop-services (delete gdm-service-type))
+	(append (modify-services %desktop-services 
+(guix-service-type config => (guix-configuration (inherit config) (channels %guixos-channels)))
+(delete gdm-service-type)
+						(delete login-service-type)
+						(delete mingetty-service-type))
  (list 
+(service greetd-service-type
+            (greetd-configuration
+             (greeter-supplementary-groups '("video" "input" "users"))
+             (terminals
+              (list
+               (greetd-terminal-configuration
+                (terminal-vt "1")
+                (terminal-switch #t)
+                (default-session-command
+                  ;; https://guix.gnu.org/manual/en/html_node/Base-Services.html
+                  ;; issues.guix.gnu.org/65769
+                  (greetd-wlgreet-sway-session
+                   (sway-configuration
+                    (local-file %greetd-conf
+                                #:recursive? #t)))))
+               (greetd-terminal-configuration
+                (terminal-vt "2"))
+               (greetd-terminal-configuration
+                (terminal-vt "3"))
+               (greetd-terminal-configuration
+                (terminal-vt "4"))
+               (greetd-terminal-configuration
+                (terminal-vt "5"))
+               (greetd-terminal-configuration
+                (terminal-vt "6"))))))
+;(service elogind-service-type)
 (service guix-home-service-type
 			`(("bosco" ,primary@minimal-home)))
 		  (service tlp-service-type
@@ -45,28 +80,22 @@
 		(packages (append thinkpad-packages
 						 (operating-system-packages %ghg-base-os)))
 		(services (append thinkpad-services
-				%ghg-base-services ))
+			 	%ghg-base-services ))
 
 		(swap-devices (list (swap-space
 							(target (uuid
-										"ccfae056-c3b1-4e1a-b432-e81f9715ae6d")))))
+										"07b04b86-97e2-40d2-a905-c25d25782e1e")))))
 		(file-systems (cons* (file-system
-								(mount-point "/home")
-								(device (uuid
-										"40e950a3-5484-49d6-a619-a397e2c57e26"
-										'ext4))
-								(type "ext4"))
-							(file-system
-								(mount-point "/")
-								(device (uuid
-										"21d20a62-52b2-4492-b28d-d280634ac962"
-										'ext4))
-								(type "ext4"))
-							(file-system
-								(mount-point "/boot/efi")
-								(device (uuid "474C-5E8A"
-											'fat32))
-								(type "vfat"))
+                         (mount-point "/boot/efi")
+                         (device (uuid "474C-5E8A"
+                                       'fat32))
+                         (type "vfat"))
+                       (file-system
+                         (mount-point "/")
+                         (device (uuid
+                                  "f68a484e-ed0b-41b8-8d98-41ad6a88560d"
+                                  'ext4))
+                         (type "ext4"))
 							%base-file-systems))))
 
 (display "Loading THINKPAD-OS from module systems/thinkpad")

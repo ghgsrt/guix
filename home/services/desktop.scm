@@ -23,13 +23,16 @@
 						 (list glib "bin")))
 
 (define (_desktop-services)
-	(list (service elogind-service-type)
-                fontconfig-file-system-service
+	(list 
+(service elogind-service-type)
+ 
+               fontconfig-file-system-service
         polkit-wheel-service
         (service polkit-service-type)
         (service dbus-root-service-type)
   		(service upower-service-type)
-		(service x11-socket-directory-service-type)))
+		(service x11-socket-directory-service-type)
+))
 (define-syntax %ghg-desktop-services
 	(identifier-syntax (_desktop-services)))
 
@@ -65,6 +68,7 @@
 	(ghg-home-service-type 'ghg-wayland
 		#:packages (list ;qtwayland-5
 						;wayland
+						egl-wayland
 						 wl-clipboard
 						 wl-color-picker
 						 rofi-wayland
@@ -72,18 +76,18 @@
 						 mesa
 						 xdg-desktop-portal-wlr
 						 xorg-server-xwayland)
-    	#:env-vars `(("WAYLAND_DISPLAY" . "wayland-0")
+    	#:env-vars `(
 				 	 ("XDG_SESSION_TYPE" . "wayland")
 					 ("GDK_BACKEND" . "wayland")
 					 ("GTK_IM_MODULE" . "wayland")
 					 ("QT_IM_MODULE" . "wayland")
-					 ("QT_QPA_PLATFORM" . "wayland")
+					 ("QT_QPA_PLATFORM" . "wayland-egl")
 					 ("QT_QPT_PLATFORM" . "wayland")
 					 ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . "1")
 					 ("SDL_VIDEODRIVER" . "wayland")
 					 ("CLUTTER_BACKEND" . "wayland")
-					 ;("ELM_ENGINE" . "wayland-egl")
-					 ;("ECORE_EVAS_ENGINE" . "wayland-egl")
+					 ("ELM_ENGINE" . "wayland-egl")
+					 ("ECORE_EVAS_ENGINE" . "wayland-egl")
 					 ("XMODIFIERS" . "@im=wayland")
 					 ("XCURSOR_SIZE" . "24"))))
 

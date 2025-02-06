@@ -3,6 +3,7 @@
   #:use-module (gnu bootloader grub)
   #:use-module (packages)
   #:use-module (services)
+  #:use-module (dotfiles guix channels)
   #:export (%ghg-base-os
 			%ghg-base-packages
 			%ghg-base-services))
@@ -23,9 +24,10 @@
 
 (define %ghg-base-services
 	(list 
+;(service guix-service-type (guix-configuration (channels %guix-channels)))
 ;(service network-manager-service-type)
 ;		  (service wpa-supplicant-service-type)
-		  ;(service ntp-service-type)
+;		  (service ntp-service-type)
 ))
 
 (define %ghg-base-os
