@@ -10,17 +10,13 @@
 	(append manifest-services
 						  guile-services
 						  ssh-services
-						  (list 
+						  (list
 (simple-service 'meslo-fonts-service home-fontconfig-service-type
 	(list "/config/dotfiles/fonts/MesloLGS"))
-				(service home-dotfiles-service-type
-						  (list 
 						  (service home-dotfiles-service-type
 									(home-dotfiles-configuration
 										(directories '("../dotfiles"))
 										(excluded '(".bashrc"))))
-										(directories '("../dotfiles")
-										(excluded))))
 								(simple-service 'ghg-base-home-env-vars home-environment-variables-service-type
 									'(("GUIX_LOCPATH" . "$home/.guix-profile/lib/locale")
 									  ("PATH" . "$HOME/.local/bin:$PATH"))))))
