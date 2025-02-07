@@ -9,8 +9,7 @@
 (define foot-service-type
   (ghg-home-service-type 'ghg-foot
 	#:packages (list foot)
-	#:env-vars `(("TERMINAL" . "foot")
-				 ("TERM" . "foot"))))
+	#:env-vars `(("TERMINAL" . "foot"))))
 
 (define (_foot-services)
 	(list (service foot-service-type)))

@@ -12,8 +12,8 @@
 (define primary@minimal-home-service-type
 	(ghg-home-service-type 'ghg-primary@minimal-home
 		#:packages (list netsurf)
-		#:env-vars '(("EDITOR" . "emacs")
-				     ("VISUAL" . "emacs"))))
+		#:env-vars '(("EDITOR" . "nano")
+				     ("VISUAL" . "nano"))))
 
 (define primary@minimal-home
 	(home-environment

@@ -102,6 +102,7 @@
 (define sway@minimal-service-type
 	(ghg-home-service-type 'ghg-sway@minimal
 		#:packages (list swaylock
+				sway
 						 swayidle
 						 mako
 						 swaybg)

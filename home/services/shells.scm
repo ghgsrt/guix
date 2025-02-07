@@ -13,7 +13,7 @@
 					 zsh-completions
 					 fzf
 					 direnv
-					 starship)))
+					 )))
 
 (define (_zsh-services)
   (list (service zsh-packages-service-type)
