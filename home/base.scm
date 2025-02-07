@@ -6,27 +6,19 @@
   #:export (%ghg-base-home
 	    %ghg-base-home-services))
 
-(define %dotfiles "../dotfiles")
-
-(define (dot-file target)
-	"Resolve the local config file."
-	(local-file (string-append %dotfiles "/" target) #:recursive? #t))
-
-;; have to do this instead of home-dotfiles-service-type because trying to use certain service-types
-;; like bash will, unfortunately, cause a duplication conflict with their configs
-;; unless I'm just missing something
-(define (home-xdg-files _config)
-	"Map any config files which are not already handled by their own relevant serive (e.g., bashrc)"
-	`(("guix/channels.scm" ,(dot-file "guix/channels.scm")
-	  ())))
-
 (define (_%ghg-base-home-services)
 	(append manifest-services
 						  guile-services
 						  ssh-services
 						  (list 
+(simple-service 'meslo-fonts-service home-fontconfig-service-type
+	(list "/config/dotfiles/fonts/MesloLGS"))
+				(service home-dotfiles-service-type
+						  (list 
 						  (service home-dotfiles-service-type
 									(home-dotfiles-configuration
+										(directories '("../dotfiles"))
+										(excluded '(".bashrc"))))
 										(directories '("../dotfiles")
 										(excluded))))
 								(simple-service 'ghg-base-home-env-vars home-environment-variables-service-type

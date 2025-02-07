@@ -32,6 +32,7 @@
 			 (gnu home services utils)
 			 (gnu home services xdg)
 			 (gnu home services dotfiles)
+			 (gnu home services fontutils)
 			 (gnu home services shells)
 			 (gnu home services ssh)
 			 (gnu home services gnupg)
