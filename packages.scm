@@ -1,4 +1,5 @@
 (define-module (packages)
+  #:use-module (packages zsh)
   #:use-module (gnu)
   #:use-module (gnu system)
   #:use-module (gnu system file-systems)

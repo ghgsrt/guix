@@ -49,7 +49,6 @@
                 (terminal-vt "5"))
                (greetd-terminal-configuration
                 (terminal-vt "6"))))))
-;(service elogind-service-type)
 (service guix-home-service-type
 			`(("bosco" ,primary@minimal-home)))
 		  (service tlp-service-type
