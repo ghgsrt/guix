@@ -109,7 +109,8 @@
 
 (define (_sway@minimal-services)
 	(append (list (service sway@minimal-service-type)
-		  		  (service home-sway-service-type))
+;		  		  (service home-sway-service-type)
+)
 		  	wayland-services))
 (define-syntax sway@minimal-services
 	(identifier-syntax (_sway@minimal-services)))
