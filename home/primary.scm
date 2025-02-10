@@ -11,9 +11,11 @@
 
 (define primary@minimal-home-service-type
 	(ghg-home-service-type 'ghg-primary@minimal-home
-		#:packages (list netsurf)
+		#:packages (list netsurf zsh-antigen)
 		#:env-vars '(("EDITOR" . "nano")
-				     ("VISUAL" . "nano"))))
+				     ("VISUAL" . "nano")
+ 			("HOME_NAME" . "primary")
+			("SHELL" . "zsh"))))
 
 (define primary@minimal-home
 	(home-environment

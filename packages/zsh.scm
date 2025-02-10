@@ -19,7 +19,7 @@
 	    (file-name (git-file-name name version))
 	    (sha256
 	     (base32
-	      "0d7wp1l1dcr24qhw03dlkcpnd3r9kxxnqjs386jp876rbc05iskz"))))
+	      "1hqnwdskdmaiyi1p63gg66hbxi1igxib6ql8db3w950kjs1cs7rq"))))
    (build-system copy-build-system)
    (arguments
     `(#:install-plan `(("bin/antigen.zsh" "share/zsh/plugins/zsh-antigen/"))))

@@ -8,11 +8,12 @@
 
 (define zsh-packages-service-type
   (ghg-home-service-type 'ghg-zsh-packages
-	#:packages (list zsh-autosuggestions
-					 zsh-syntax-highlighting
-					 zsh-completions
-					 fzf
-					 direnv
+	#:packages (list zsh-antigen
+; zsh-autosuggestions
+;					 zsh-syntax-highlighting
+;					 zsh-completions
+;					 fzf
+;					 direnv
 					 )))
 
 (define (_zsh-services)

@@ -13,13 +13,16 @@
 						  (list
 (simple-service 'meslo-fonts-service home-fontconfig-service-type
 	(list "/config/dotfiles/fonts/MesloLGS"))
-						  (service home-dotfiles-service-type
-									(home-dotfiles-configuration
-										(directories '("../dotfiles"))
-										(excluded '(".bashrc"))))
+;						  (service home-dotfiles-service-type
+;									(home-dotfiles-configuration
+;										(directories '("../dotfiles"))
+;										(excluded '(".bashrc"))))
 								(simple-service 'ghg-base-home-env-vars home-environment-variables-service-type
-									'(("GUIX_LOCPATH" . "$home/.guix-profile/lib/locale")
-									  ("PATH" . "$HOME/.local/bin:$PATH"))))))
+									'(("GUIX_LOCPATH" . "$HOME/.guix-profile/lib/locale")
+									  ("PATH" . "$HOME/.local/bin:$PATH")
+("PROFILE" . "$HOME/.guix-home/profile")
+("HOME_TYPE" . "guix")
+("HOME_NAME" . "base"))))))
 (define-syntax %ghg-base-home-services
 	(identifier-syntax (_%ghg-base-home-services)))
 

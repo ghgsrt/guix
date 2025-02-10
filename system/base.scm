@@ -3,6 +3,7 @@
   #:use-module (gnu bootloader grub)
   #:use-module (packages)
   #:use-module (services)
+  #:use-module (home primary)
   #:use-module (dotfiles guix channels)
   #:export (%ghg-base-os
 			%ghg-base-packages
@@ -24,6 +25,10 @@
 
 (define %ghg-base-services
 	(list 
+(service guix-home-service-type
+                        `(("root" ,primary@minimal-home)
+			  ("bosco" ,primary@minimal-home)))
+
 ;(service guix-service-type (guix-configuration (channels %guix-channels)))
 ;(service network-manager-service-type)
 ;		  (service wpa-supplicant-service-type)
