@@ -11,7 +11,7 @@
 			thinkpad-services))
 
 (define thinkpad-packages
-	(cons tlp %ghg-desktop-packages))
+	(cons tlp %bos-desktop-packages))
 
 (define %greetd-conf (string-append "/home/bosco/.guixos-sway/"
                                     "files/sway/sway-greetd.conf"))
@@ -63,23 +63,23 @@
 
 (define thinkpad-os
 	(operating-system
-		(inherit %ghg-base-os)
+		(inherit %bos-base-os)
 
 		(host-name "thinkpad")
 		(users (cons bosco-user
-					(operating-system-users %ghg-base-os)))
+					(operating-system-users %bos-base-os)))
 
 		(kernel-arguments (append '("modprobe.blacklist=b43,b43legacy,ssb,bcm43xx,brcm80211,brcmfmac,brcmsmac,bcma")
-								   (operating-system-kernel-arguments %ghg-base-os "/dev/disk/by-label/root")))
+								   (operating-system-kernel-arguments %bos-base-os "/dev/disk/by-label/root")))
 		(kernel-loadable-modules (list (@ (nongnu packages linux) broadcom-sta)))
 
  		(firmware (cons broadcom-bt-firmware
-					   (operating-system-firmware %ghg-base-os)))
+					   (operating-system-firmware %bos-base-os)))
 
 		(packages (append thinkpad-packages
-						 (operating-system-packages %ghg-base-os)))
+						 (operating-system-packages %bos-base-os)))
 		(services (append thinkpad-services
-			 	%ghg-base-services ))
+			 	%bos-base-services ))
 
 		(swap-devices (list (swap-space
 							(target (uuid

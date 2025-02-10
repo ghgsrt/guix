@@ -7,10 +7,10 @@
 ;; ~~ GIT ~~
 
 (define git-packages-service-type
-	(ghg-home-service-type 'ghg-git-packages
+	(bos-home-service-type 'bos-git-packages
 		#:packages (list git)))
 
-(define (_git-services)
+(define git-services
 	(list (service git-packages-service-type)))
-(define-syntax git-services
-	(identifier-syntax (_git-services)))
+; (define-syntax git-services
+; 	(identifier-syntax (_git-services)))

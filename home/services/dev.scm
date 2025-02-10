@@ -7,14 +7,14 @@
 ;; ~~ GUILE ~~
 
 (define guile-packages-service-type
-	(ghg-home-service-type 'ghg-guile-packages
+	(bos-home-service-type 'bos-guile-packages
 		#:packages (list guile-fibers
 						guile-colorized
 						 guile-g-golf
 						 guile-json-4
 						 guile-uuid)))
 
-(define (_guile-services)
+(define guile-services
 	(list (service guile-packages-service-type)))
-(define-syntax guile-services
-	(identifier-syntax (_guile-services)))
+; (define-syntax guile-services
+; 	(identifier-syntax (_guile-services)))

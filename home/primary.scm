@@ -10,17 +10,17 @@
   #:export (primary@minimal-home))
 
 (define primary@minimal-home-service-type
-	(ghg-home-service-type 'ghg-primary@minimal-home
+	(bos-home-service-type 'bos-primary@minimal-home
 		#:packages (list netsurf zsh-antigen)
 		#:env-vars '(("EDITOR" . "nano")
 				     ("VISUAL" . "nano")
- 			("HOME_NAME" . "primary")
+ 			("BOS_HOME_NAME" . "primary")
 			("SHELL" . "zsh"))))
 
 (define primary@minimal-home
 	(home-environment
 		(services (append (list (service primary@minimal-home-service-type))
-						  %ghg-base-home-services
+						  %bos-base-home-services
 						  sway@minimal-services
 						  foot-services
 						  zsh-services

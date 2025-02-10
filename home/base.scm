@@ -3,10 +3,10 @@
   #:use-module (home services manifest)
   #:use-module (home services dev)
   #:use-module (home services ssh)
-  #:export (%ghg-base-home
-	    %ghg-base-home-services))
+  #:export (%bos-base-home
+	    %bos-base-home-services))
 
-(define (_%ghg-base-home-services)
+(define %bos-base-home-services
 	(append manifest-services
 						  guile-services
 						  ssh-services
@@ -17,18 +17,18 @@
 ;									(home-dotfiles-configuration
 ;										(directories '("../dotfiles"))
 ;										(excluded '(".bashrc"))))
-								(simple-service 'ghg-base-home-env-vars home-environment-variables-service-type
+								(simple-service 'bos-base-home-env-vars home-environment-variables-service-type
 									'(("GUIX_LOCPATH" . "$HOME/.guix-profile/lib/locale")
 									  ("PATH" . "$HOME/.local/bin:$PATH")
-("PROFILE" . "$HOME/.guix-home/profile")
-("HOME_TYPE" . "guix")
-("HOME_NAME" . "base"))))))
-(define-syntax %ghg-base-home-services
-	(identifier-syntax (_%ghg-base-home-services)))
+("BOS_HOME_PROFILE" . "$HOME/.guix-home/profile")
+("BOS_HOME_TYPE" . "guix")
+("BOS_HOME_NAME" . "base"))))))
+; (define-syntax %bos-base-home-services
+; 	(identifier-syntax (_%bos-base-home-services)))
 
 
-(define %ghg-base-home
+(define %bos-base-home
 	(home-environment
-		(services %ghg-base-home-services)))
+		(services %bos-base-home-services)))
 
-%ghg-base-home
+%bos-base-home

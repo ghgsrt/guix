@@ -7,11 +7,11 @@
 ;; ~~ FOOT ~~
 
 (define foot-service-type
-  (ghg-home-service-type 'ghg-foot
-	#:packages (list foot)
-	#:env-vars `(("TERMINAL" . "foot"))))
+  (bos-home-service-type 'bos-foot
+	#:packages (list foot)))
+	;#:env-vars `(("TERMINAL" . "foot"))))
 
-(define (_foot-services)
+(define foot-services
 	(list (service foot-service-type)))
-(define-syntax foot-services
-	(identifier-syntax (_foot-services)))
+; (define-syntax foot-services
+; 	(identifier-syntax (_foot-services)))

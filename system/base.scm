@@ -5,11 +5,11 @@
   #:use-module (services)
   #:use-module (home primary)
   #:use-module (dotfiles guix channels)
-  #:export (%ghg-base-os
-			%ghg-base-packages
-			%ghg-base-services))
+  #:export (%bos-base-os
+			%bos-base-packages
+			%bos-base-services))
 
-(define %ghg-base-packages
+(define %bos-base-packages
 	(list git
 		  tmux
 		  curl
@@ -23,7 +23,7 @@
 		  dconf-editor
 		  coreutils))
 
-(define %ghg-base-services
+(define %bos-base-services
 	(list 
 (service guix-home-service-type
                         `(("root" ,primary@minimal-home)
@@ -35,7 +35,7 @@
 ;		  (service ntp-service-type)
 ))
 
-(define %ghg-base-os
+(define %bos-base-os
 	(operating-system
 		(locale "en_US.utf8")
 		(timezone "America/New_York")
@@ -49,8 +49,8 @@
 							   (@ (nongnu packages linux) linux-firmware))
 						   %base-firmware))
 		
-		(packages (append %ghg-base-packages %base-packages))
-		(services (append %ghg-base-services %base-services))
+		(packages (append %bos-base-packages %base-packages))
+		(services (append %bos-base-services %base-services))
 
 		(groups (cons (user-group (system? #t) (name "seat")) %base-groups))
 

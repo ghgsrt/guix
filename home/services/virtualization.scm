@@ -7,11 +7,11 @@
 ;; ~~ PODMAN ~~
 
 (define podman-service-type
-  (ghg-home-service-type 'ghg-podman
+  (bos-home-service-type 'bos-podman
 	#:packages (list podman)
 	#:env-vars `(("DOCKER_HOST" . "unix:///tmp/podman.sock"))))
 
-(define (_podman-services)
+(define podman-services
 	(list (service podman-service-type)))
-(define-syntax podman-services
-	(identifier-syntax (_podman-services)))
+; (define-syntax podman-services
+; 	(identifier-syntax (_podman-services)))

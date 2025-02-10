@@ -5,11 +5,10 @@
   #:export (ssh-services))
 
 (define ssh-packages-service-type
-  (ghg-home-service-type 'ghg-ssh-packages
+  (bos-home-service-type 'bos-ssh-packages
 	#:packages (list openssh)))
 
-(define (_ssh-services)
-  (list (service ssh-packages-service-type)
-		(service home-openssh-service-type)))
-(define-syntax ssh-services
-	(identifier-syntax (_ssh-services)))
+(define ssh-services
+  (list (service ssh-packages-service-type)))
+; (define-syntax ssh-services
+; 	(identifier-syntax (_ssh-services)))

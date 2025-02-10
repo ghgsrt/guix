@@ -7,17 +7,12 @@
 ;; ~~ ZSH ~~
 
 (define zsh-packages-service-type
-  (ghg-home-service-type 'ghg-zsh-packages
-	#:packages (list zsh-antigen
-; zsh-autosuggestions
-;					 zsh-syntax-highlighting
-;					 zsh-completions
-;					 fzf
-;					 direnv
-					 )))
+  (bos-home-service-type 'bos-zsh-packages
+	#:packages (list zsh zsh-antigen)))
 
-(define (_zsh-services)
+(define zsh-services
   (list (service zsh-packages-service-type)
-		(service home-zsh-service-type)))
-(define-syntax zsh-services
-	(identifier-syntax (_zsh-services)))
+		;(service home-zsh-service-type)
+		))
+; (define-syntax zsh-services
+; 	(identifier-syntax (_zsh-services)))

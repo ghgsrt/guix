@@ -2,8 +2,8 @@
   #:use-module (home)
   #:use-module (packages)
   #:use-module (services)
-  #:export (%ghg-desktop-packages
-		%ghg-desktop-services
+  #:export (%bos-desktop-packages
+		%bos-desktop-services
   			qt-services
 			kvantum-services
 			wayland-services
@@ -13,7 +13,7 @@
 
 ;; ~~ Base ~~ -- NOTE: 'desktop-services' MUST be used directly on the OS, NOT ON A HOME ENV
 
-(define %ghg-desktop-packages
+(define %bos-desktop-packages
 		(list shared-mime-info
 						 xdg-utils
 						 xdg-dbus-proxy
@@ -22,50 +22,48 @@
 						 fontconfig
 						 (list glib "bin")))
 
-(define (_desktop-services)
-	(list 
-(service elogind-service-type)
- 
-               fontconfig-file-system-service
+(define %bos-desktop-services
+	(list
+		(service elogind-service-type)
+        fontconfig-file-system-service
         polkit-wheel-service
         (service polkit-service-type)
         (service dbus-root-service-type)
   		(service upower-service-type)
-		(service x11-socket-directory-service-type)
-))
-(define-syntax %ghg-desktop-services
-	(identifier-syntax (_desktop-services)))
+		(service x11-socket-directory-service-type)))
+; (define-syntax %bos-desktop-services
+; 	(identifier-syntax (_desktop-services)))
 
 ;; ~~ QT ~~
 
 (define qt-packages-service-type
-	(ghg-home-service-type 'ghg-qt-packages
+	(bos-home-service-type 'bos-qt-packages
 		#:packages (list qt5ct
 						 qt5ct)
 		#:env-vars `(("QT_QPA_PLATFORMTHEME" . "qt5ct")
 					 ("QT_PLATFORMTHEME" . "qt5ct")
 					 ("QT_AUTO_SCREEN_SCALE_FACTOR" . "1"))))
 
-(define (_qt-services)
+(define qt-services
 	(list (service qt-packages-service-type)))
-(define-syntax qt-services
-	(identifier-syntax (_qt-services)))
+; (define-syntax qt-services
+	; (identifier-syntax (_qt-services)))
 
 ;; ~~ Kvantum ~~
 
 (define kvantum-packages-service-type
-	(ghg-home-service-type 'ghg-kvantum-packages
+	(bos-home-service-type 'bos-kvantum-packages
 		#:packages (list kvantum)))
 
-(define (_kvantum-services)
+(define kvantum-services
 	(list (service kvantum-packages-service-type)))
-(define-syntax kvantum-services
-	(identifier-syntax (_kvantum-services)))
+; (define-syntax kvantum-services
+; 	(identifier-syntax (_kvantum-services)))
 
 ;; ~~ Wayland ~~
 
 (define wayland-service-type
-	(ghg-home-service-type 'ghg-wayland
+	(bos-home-service-type 'bos-wayland
 		#:packages (list ;qtwayland-5
 						;wayland
 						egl-wayland
@@ -91,16 +89,16 @@
 					 ("XMODIFIERS" . "@im=wayland")
 					 ("XCURSOR_SIZE" . "24"))))
 
-(define (_wayland-services)
+(define wayland-services
 	(list (service wayland-service-type)))
-(define-syntax wayland-services
-	(identifier-syntax (_wayland-services)))
+; (define-syntax wayland-services
+; 	(identifier-syntax (_wayland-services)))
 
 ;; ~~ Sway ~~
 
 ;; Sway@minimal
 (define sway@minimal-service-type
-	(ghg-home-service-type 'ghg-sway@minimal
+	(bos-home-service-type 'bos-sway@minimal
 		#:packages (list swaylock
 				sway
 						 swayidle
@@ -108,27 +106,25 @@
 						 swaybg)
 		#:env-vars `(("XDG_CURRENT_DESKTOP" . "sway"))))
 
-(define (_sway@minimal-services)
-	(append (list (service sway@minimal-service-type)
-;		  		  (service home-sway-service-type)
-)
+(define sway@minimal-services
+	(append (list (service sway@minimal-service-type))
 		  	wayland-services))
-(define-syntax sway@minimal-services
-	(identifier-syntax (_sway@minimal-services)))
+; (define-syntax sway@minimal-services
+; 	(identifier-syntax (_sway@minimal-services)))
 
 ;; Sway
 (define sway-service-type
-	(ghg-home-service-type 'ghg-sway
+	(bos-home-service-type 'bos-sway
 		#:packages (list fuzzel
 						 grim
 						 slurp
 						 waybar)))
 
-(define (_sway-services)
+(define sway-services
 	(cons (service sway-service-type)
 		  (sway@minimal-services)))
-(define-syntax sway-services
-	(identifier-syntax (_sway-services)))
+; (define-syntax sway-services
+; 	(identifier-syntax (_sway-services)))
 
 ;(display sway-services)
 
