@@ -12,6 +12,7 @@
 (define %bos-base-packages
 	(list git
 		  tmux
+		  tmux-tpm
 		  curl
 		  ripgrep
 		  fd
