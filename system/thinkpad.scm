@@ -10,8 +10,7 @@
   			thinkpad-packages
 			thinkpad-services))
 
-(define thinkpad-packages
-	(cons tlp %bos-desktop-packages))
+(define thinkpad-packages (list tlp))
 
 (define %greetd-conf (string-append "/home/bosco/.guixos-sway/"
                                     "files/sway/sway-greetd.conf"))
@@ -26,31 +25,6 @@
 ;						(delete mingetty-service-type)
 ;)
  (list 
-;(service greetd-service-type
-;            (greetd-configuration
- ;            (greeter-supplementary-groups '("video" "input" "users"))
-  ;           (terminals
-   ;           (list
-    ;           (greetd-terminal-configuration
-     ;           (terminal-vt "1")
-      ;          (terminal-switch #t)
-       ;         (default-session-command
-        ;          ;; https://guix.gnu.org/manual/en/html_node/Base-Services.html
-        ;          ;; issues.guix.gnu.org/65769
-        ;          (greetd-wlgreet-sway-session
-        ;           (sway-configuration
-        ;            (local-file %greetd-conf
-        ;                        #:recursive? #t)))))
-        ;       (greetd-terminal-configuration
-        ;        (terminal-vt "2"))
-        ;       (greetd-terminal-configuration
-        ;        (terminal-vt "3"))
-        ;       (greetd-terminal-configuration
-        ;        (terminal-vt "4"))
-        ;       (greetd-terminal-configuration
-        ;        (terminal-vt "5"))
-        ;       (greetd-terminal-configuration
-        ;        (terminal-vt "6"))))))
 		;(service guix-home-service-type
 	;		`(("bosco" ,primary@minimal-home)))
 		  (service tlp-service-type

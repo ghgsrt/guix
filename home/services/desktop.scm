@@ -65,7 +65,7 @@
 
 (define wayland-service-type
 	(bos-home-service-type 'bos-wayland
-		#:packages (list ;qtwayland-5
+		#:packages (cons* ;qtwayland-5
 						;wayland
 ;						egl-wayland
 						 wl-clipboard
@@ -74,7 +74,8 @@
 						 libxkbcommon
 						 mesa
 						 xdg-desktop-portal-wlr
-						 xorg-server-xwayland)
+						 xorg-server-xwayland
+						 %bos-desktop-packages)
     	#:env-vars `(
 				 	 ("XDG_SESSION_TYPE" . "wayland")
 					 ("GDK_BACKEND" . "wayland")
