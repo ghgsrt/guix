@@ -20,7 +20,7 @@
 	      "18i499hhxly1r2bnqp9wssh0p1v391cxf10aydxaa7mdmrd3vqh9"))))
    (build-system copy-build-system)
    (arguments
-    `(#:install-plan `(("*" "$HOME/.tmux/plugins/tpm"))))
+    `(#:install-plan `(("*" "/.tmux/plugins/tpm"))))
    (synopsis "A tmux plugin manager.")
    (description "To make use of this derivation, use
 		\"run\" \"'~/.tmux/plugins/tpm/tpm'\"")
