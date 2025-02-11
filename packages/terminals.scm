@@ -17,7 +17,7 @@
 	    (file-name (git-file-name name version))
 	    (sha256
 	     (base32
-	      "1hqnwdskdmaiyi1p63gg66hbxi1igxib6ql8db3w950kjs1cs7rq"))))
+	      "18i499hhxly1r2bnqp9wssh0p1v391cxf10aydxaa7mdmrd3vqh9"))))
    (build-system copy-build-system)
    (arguments
     `(#:install-plan `(("*" "$HOME/.tmux/plugins/tpm"))))
