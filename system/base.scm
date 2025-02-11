@@ -18,6 +18,10 @@
 		  ripgrep
 		  fd))
 
+(define %greetd-conf (string-append "/home/bosco/.guixos-sway/"
+                                    "files/sway/sway-greetd.conf"))
+
+
 (define %bos-base-services
 	(cons*
 ; (service kmscon-service-type (kmscon-configuration

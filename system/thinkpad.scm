@@ -12,8 +12,6 @@
 
 (define thinkpad-packages (list tlp))
 
-(define %greetd-conf (string-append "/home/bosco/.guixos-sway/"
-                                    "files/sway/sway-greetd.conf"))
 
 
 (define (thinkpad-base-services)
