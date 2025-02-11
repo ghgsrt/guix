@@ -38,10 +38,10 @@
 			(list (service %bos-base-home-service-type)
 				  (simple-service 'meslo-fonts-service home-fontconfig-service-type
 					(list "/config/dotfiles/fonts/MesloLGS"))
-		;   (service home-dotfiles-service-type
-		; 			(home-dotfiles-configuration
-		; 				(directories '("../dotfiles"))
-		; 				(excluded '(".bashrc"))))
+		  (service home-dotfiles-service-type
+					(home-dotfiles-configuration
+						(directories '("../dotfiles/base"))
+						(excluded '(".bashrc"))))
 				)))
 ; (define-syntax %bos-base-home-services
 ; 	(identifier-syntax (_%bos-base-home-services)))
