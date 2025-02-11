@@ -1,6 +1,7 @@
 (define-module (home base)
   #:use-module (home)
   #:use-module (services)
+  #:use-module (packages)
   #:use-module (home services manifest)
   #:use-module (home services dev)
   #:use-module (home services ssh)
