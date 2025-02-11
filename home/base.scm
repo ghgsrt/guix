@@ -1,4 +1,5 @@
 (define-module (home base)
+  #:use-module (home)
   #:use-module (services)
   #:use-module (home services manifest)
   #:use-module (home services dev)
