@@ -8,8 +8,9 @@
 			kvantum-services
 			wayland-services
 			sway@minimal-services
-			sway-services
-			sway:fx-services))
+;			sway-services
+;			sway:fx-services
+))
 
 ;; ~~ Base ~~ -- NOTE: 'desktop-services' MUST be used directly on the OS, NOT ON A HOME ENV
 
@@ -66,7 +67,7 @@
 	(bos-home-service-type 'bos-wayland
 		#:packages (list ;qtwayland-5
 						;wayland
-						egl-wayland
+;						egl-wayland
 						 wl-clipboard
 						 wl-color-picker
 						 rofi-wayland
@@ -108,7 +109,7 @@
 
 (define sway@minimal-services
 	(append (list (service sway@minimal-service-type))
-		  	wayland-services))
+		 wayland-services))
 ; (define-syntax sway@minimal-services
 ; 	(identifier-syntax (_sway@minimal-services)))
 
@@ -120,9 +121,9 @@
 						 slurp
 						 waybar)))
 
-(define sway-services
-	(cons (service sway-service-type)
-		  (sway@minimal-services)))
+;(define sway-services
+;	(cons (service sway-service-type)
+;		  (sway@minimal-services)))
 ; (define-syntax sway-services
 ; 	(identifier-syntax (_sway-services)))
 

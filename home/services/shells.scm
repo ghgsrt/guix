@@ -8,11 +8,11 @@
 
 (define zsh-packages-service-type
   (bos-home-service-type 'bos-zsh-packages
-	#:packages (list zsh zsh-antigen)))
+	#:packages (list zsh-antigen)))
 
 (define zsh-services
   (list (service zsh-packages-service-type)
-		;(service home-zsh-service-type)
+		(service home-zsh-service-type)
 		))
 ; (define-syntax zsh-services
 ; 	(identifier-syntax (_zsh-services)))

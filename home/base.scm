@@ -13,16 +13,17 @@
 						  (list
 (simple-service 'meslo-fonts-service home-fontconfig-service-type
 	(list "/config/dotfiles/fonts/MesloLGS"))
-;						  (service home-dotfiles-service-type
-;									(home-dotfiles-configuration
-;										(directories '("../dotfiles"))
-;										(excluded '(".bashrc"))))
+						  (service home-dotfiles-service-type
+									(home-dotfiles-configuration
+										(directories '("../dotfiles"))
+										(excluded '(".bashrc"))))
 								(simple-service 'bos-base-home-env-vars home-environment-variables-service-type
-									'(("GUIX_LOCPATH" . "$HOME/.guix-profile/lib/locale")
+									`(("GUIX_LOCPATH" . "$HOME/.guix-profile/lib/locale")
 									  ("PATH" . "$HOME/.local/bin:$PATH")
 ("BOS_HOME_PROFILE" . "$HOME/.guix-home/profile")
 ("BOS_HOME_TYPE" . "guix")
-("BOS_HOME_NAME" . "base"))))))
+("BOS_HOME_NAME" . "base")
+("BOS_CONFIG_DIR" . ,(car %load-path)))))))
 ; (define-syntax %bos-base-home-services
 ; 	(identifier-syntax (_%bos-base-home-services)))
 

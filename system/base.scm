@@ -24,10 +24,38 @@
 		  coreutils))
 
 (define %bos-base-services
-	(list 
+	(cons* 
+(service kmscon-service-type (kmscon-configuration 
+(virtual-terminal "tty1")
+(keyboard-layout (keyboard-layout "us" "basic"))))
+(service kmscon-service-type
+(kmscon-configuration
+(virtual-terminal "tty2")))
+(service kmscon-service-type
+(kmscon-configuration
+(virtual-terminal "tty3")))
+(service kmscon-service-type
+(kmscon-configuration
+(virtual-terminal "tty4")))
+(service kmscon-service-type
+(kmscon-configuration
+(virtual-terminal "tty5")))
+(service kmscon-service-type
+(kmscon-configuration
+(virtual-terminal "tty6")))
+
+;(virtual-terminal "tty3")
+;(virtual-terminal "tty4")
+;(virtual-terminal "tty5")
+;(virtual-terminal "tty6")))
 (service guix-home-service-type
                         `(("root" ,primary@minimal-home)
 			  ("bosco" ,primary@minimal-home)))
+ (modify-services %desktop-services
+(guix-service-type config => (guix-configuration (inherit config)
+(channels %guixos-channels)))
+(delete gdm-service-type)
+(delete mingetty-service-type))
 
 ;(service guix-service-type (guix-configuration (channels %guix-channels)))
 ;(service network-manager-service-type)
@@ -50,7 +78,14 @@
 						   %base-firmware))
 		
 		(packages (append %bos-base-packages %base-packages))
-		(services (append %bos-base-services %base-services))
+		(services (append %bos-base-services 
+			;	  (modify-services %desktop-services
+;(guix-service-type config => (guix-configuration (inherit config) 
+;(channels %guixos-channels)))
+;(delete gdm-service-type))
+;                                               (delete login-service-type)
+;                                               (delete mingetty-service-type)
+))
 
 		(groups (cons (user-group (system? #t) (name "seat")) %base-groups))
 

@@ -18,37 +18,39 @@
 
 
 (define (thinkpad-base-services)
-	(append (modify-services %desktop-services 
-(guix-service-type config => (guix-configuration (inherit config) (channels %guixos-channels)))
-(delete gdm-service-type)
-						(delete login-service-type)
-						(delete mingetty-service-type))
+;	(list 
+;(modify-services %desktop-services 
+;(guix-service-type config => (guix-configuration (inherit config) (channels %guixos-channels)))
+;(delete gdm-service-type)
+;						(delete login-service-type)
+;						(delete mingetty-service-type)
+;)
  (list 
-(service greetd-service-type
-            (greetd-configuration
-             (greeter-supplementary-groups '("video" "input" "users"))
-             (terminals
-              (list
-               (greetd-terminal-configuration
-                (terminal-vt "1")
-                (terminal-switch #t)
-                (default-session-command
-                  ;; https://guix.gnu.org/manual/en/html_node/Base-Services.html
-                  ;; issues.guix.gnu.org/65769
-                  (greetd-wlgreet-sway-session
-                   (sway-configuration
-                    (local-file %greetd-conf
-                                #:recursive? #t)))))
-               (greetd-terminal-configuration
-                (terminal-vt "2"))
-               (greetd-terminal-configuration
-                (terminal-vt "3"))
-               (greetd-terminal-configuration
-                (terminal-vt "4"))
-               (greetd-terminal-configuration
-                (terminal-vt "5"))
-               (greetd-terminal-configuration
-                (terminal-vt "6"))))))
+;(service greetd-service-type
+;            (greetd-configuration
+ ;            (greeter-supplementary-groups '("video" "input" "users"))
+  ;           (terminals
+   ;           (list
+    ;           (greetd-terminal-configuration
+     ;           (terminal-vt "1")
+      ;          (terminal-switch #t)
+       ;         (default-session-command
+        ;          ;; https://guix.gnu.org/manual/en/html_node/Base-Services.html
+        ;          ;; issues.guix.gnu.org/65769
+        ;          (greetd-wlgreet-sway-session
+        ;           (sway-configuration
+        ;            (local-file %greetd-conf
+        ;                        #:recursive? #t)))))
+        ;       (greetd-terminal-configuration
+        ;        (terminal-vt "2"))
+        ;       (greetd-terminal-configuration
+        ;        (terminal-vt "3"))
+        ;       (greetd-terminal-configuration
+        ;        (terminal-vt "4"))
+        ;       (greetd-terminal-configuration
+        ;        (terminal-vt "5"))
+        ;       (greetd-terminal-configuration
+        ;        (terminal-vt "6"))))))
 		;(service guix-home-service-type
 	;		`(("bosco" ,primary@minimal-home)))
 		  (service tlp-service-type
@@ -57,7 +59,7 @@
 				(wifi-pwr-on-bat? #f)))
 		  (service bluetooth-service-type
 			(bluetooth-configuration
-				(auto-enable? #t))))))
+				(auto-enable? #t)))))
 (define-syntax thinkpad-services
 	(identifier-syntax (thinkpad-base-services)))
 
