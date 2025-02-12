@@ -10,7 +10,9 @@
   			thinkpad-packages
 			thinkpad-services))
 
-(define thinkpad-packages (list tlp))
+(define thinkpad-packages (list 
+;tlp
+))
 
 
 
