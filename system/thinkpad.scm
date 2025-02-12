@@ -27,10 +27,10 @@
  (list 
 		;(service guix-home-service-type
 	;		`(("bosco" ,primary@minimal-home)))
-		  (service tlp-service-type
-			(tlp-configuration
-				(cpu-boost-on-ac? #t)
-				(wifi-pwr-on-bat? #f)))
+		;   (service tlp-service-type
+		; 	(tlp-configuration
+		; 		(cpu-boost-on-ac? #t)
+		; 		(wifi-pwr-on-bat? #f)))
 		  (service bluetooth-service-type
 			(bluetooth-configuration
 				(auto-enable? #t)))))
