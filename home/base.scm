@@ -40,7 +40,7 @@
 					(list "/config/dotfiles/fonts/MesloLGS"))
 		  (service home-dotfiles-service-type
 					(home-dotfiles-configuration
-						(directories '("../dotfiles/base"))
+						(directories '("../dotfiles"))
 						(excluded '(".bashrc"))))
 				)))
 ; (define-syntax %bos-base-home-services
