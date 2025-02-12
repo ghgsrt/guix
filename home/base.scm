@@ -15,7 +15,7 @@
 						neovim
 						tmux
 						tmux-tpm
-						gnupg2
+						gnupg
 						hyperfine
 						nnn
 						shellcheck
