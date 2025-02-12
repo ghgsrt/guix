@@ -12,8 +12,15 @@
 (define %bos-base-home-service-type
   (bos-home-service-type 'bos-base-home
   		#:packages (list git
+						neovim
 						tmux
 						tmux-tpm
+						gnupg2
+						hyperfine
+						nnn
+						shellcheck
+						shfmt
+						fzf
 						openssl
 						net-tools
 						curl
@@ -36,11 +43,11 @@
 			guile-services
 			ssh-services
 			(list (service %bos-base-home-service-type)
-				  (simple-service 'meslo-fonts-service home-fontconfig-service-type
-					(list "/config/dotfiles/fonts/MesloLGS"))
+				;   (simple-service 'meslo-fonts-service home-fontconfig-service-type
+				; 	(list "/config/dotfiles/fonts/MesloLGS"))
 		  (service home-dotfiles-service-type
 					(home-dotfiles-configuration
-						(directories '("../dotfiles"))
+						(directories '("/dots"))
 						(excluded '(".bashrc"))))
 				)))
 ; (define-syntax %bos-base-home-services
