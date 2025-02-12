@@ -49,7 +49,7 @@
 		  (service home-dotfiles-service-type
 					(home-dotfiles-configuration
 						(directories '("/dots"))
-						(excluded '(".bashrc" ""))))
+						(excluded '(".bashrc"))))
 				)))
 ; (define-syntax %bos-base-home-services
 ; 	(identifier-syntax (_%bos-base-home-services)))
