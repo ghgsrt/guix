@@ -23,6 +23,7 @@
 						fzf
 						openssl
 						net-tools
+						font-fira-code
 						curl
 						ripgrep
 						fd
@@ -48,7 +49,7 @@
 		  (service home-dotfiles-service-type
 					(home-dotfiles-configuration
 						(directories '("/dots"))
-						(excluded '(".bashrc"))))
+						(excluded '(".bashrc" "fontconfig"))))
 				)))
 ; (define-syntax %bos-base-home-services
 ; 	(identifier-syntax (_%bos-base-home-services)))
