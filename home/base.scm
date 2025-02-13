@@ -12,6 +12,8 @@
 (define %bos-base-home-service-type
   (bos-home-service-type 'bos-base-home
   		#:packages (list git
+						podman
+						vim
 						neovim
 						tmux
 						tmux-tpm
@@ -44,8 +46,8 @@
 			guile-services
 			ssh-services
 			(list (service %bos-base-home-service-type)
-				;   (simple-service 'meslo-fonts-service home-fontconfig-service-type
-				; 	(list "/config/dotfiles/fonts/MesloLGS"))
+				   (simple-service 'meslo-fonts-service home-fontconfig-service-type
+				 	(list "/dots/fonts/MesloLGS"))
 		  (service home-dotfiles-service-type
 					(home-dotfiles-configuration
 						(directories '("/dots"))
