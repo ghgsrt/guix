@@ -36,7 +36,6 @@
 						coreutils)
 		#:env-vars `(("GUIX_LOCPATH" . "$HOME/.guix-profile/lib/locale")
 					 ("PATH" . "$HOME/.local/bin:$PATH")
-					 ("ZLE_RPROMPT_INDENT" . "0")
 					 ("BOS_HOME_PROFILE" . "$HOME/.guix-home/profile")
 					 ("BOS_HOME_TYPE" . "guix")
 					 ("BOS_HOME_NAME" . "base")

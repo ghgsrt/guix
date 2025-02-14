@@ -79,7 +79,8 @@
 			  ("bosco" ,primary@minimal-home)))
  (modify-services %desktop-services
 (guix-service-type config => (guix-configuration (inherit config)
-(channels %guixos-channels)))
+								; (environment '(("BOS_DISTRO" . "guix")))
+								(channels %guixos-channels)))
 (delete gdm-service-type)
 (delete login-service-type)
 (delete mingetty-service-type))

@@ -55,7 +55,12 @@
 		(packages (append thinkpad-packages
 						 (operating-system-packages %bos-base-os)))
 		(services (append thinkpad-services
-			 	%bos-base-services ))
+						 %bos-base-services))
+			 	; (modify-services %bos-base-services
+				; 	(guix-service-type config =>
+				; 		(guix-configuration (inherit config)
+				; 							(environment (append '(("BOS_SYSTEM" . "thinkpad"))
+				; 												 (guix-configuration-environment config))))))))
 
 		(swap-devices (list (swap-space
 							(target (uuid
