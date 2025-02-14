@@ -102,7 +102,7 @@
 (define sway@minimal-service-type
 	(bos-home-service-type 'bos-sway@minimal
 		#:packages (list swaylock
-				sway
+				swayfx
 						 swayidle
 						 mako
 						 swaybg)
