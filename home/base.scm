@@ -47,11 +47,11 @@
 			ssh-services
 			(list (service %bos-base-home-service-type)
 				   (simple-service 'meslo-fonts-service home-fontconfig-service-type
-				 	(list "/dots/fonts/MesloLGS"))
-		  (service home-dotfiles-service-type
-					(home-dotfiles-configuration
-						(directories '("/dots"))
-						(excluded '(".bashrc"))))
+				 	(list "/bos/dotfiles/fonts/MesloLGS"))
+		;   (service home-dotfiles-service-type
+		; 			(home-dotfiles-configuration
+		; 				(directories '("/dots"))
+		; 				(excluded '(".bashrc"))))
 				)))
 ; (define-syntax %bos-base-home-services
 ; 	(identifier-syntax (_%bos-base-home-services)))
