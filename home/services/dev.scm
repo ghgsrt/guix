@@ -16,5 +16,3 @@
 
 (define guile-services
 	(list (service guile-packages-service-type)))
-; (define-syntax guile-services
-; 	(identifier-syntax (_guile-services)))

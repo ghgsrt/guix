@@ -14,5 +14,3 @@
 					"manifest-source.sh"
 					"\n# Source manifest cd function source ~/.config/bash/manifest-cd.sh\n")))
 				(aliases '(("regenerate-manifest" . "generate-manifest --force")))))))
-; (define-syntax manifest-services
-;   (identifier-syntax (_manifest-services)))

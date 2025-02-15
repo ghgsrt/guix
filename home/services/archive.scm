@@ -11,8 +11,6 @@
 
 (define archive@minimal-services
 	(list (service archive@minimal-packages-service-type)))
-; (define-syntax archive@minimal-services
-; 	(identifier-syntax (_archive@minimal-services)))
 
 (define archive-packages-service-type
   (bos-home-service-type 'bos-archive-packages
@@ -24,5 +22,3 @@
 
 (define archive-services
 	(cons (service archive-packages-service-type) archive@minimal-services))
-; (define-syntax archive-services
-	; (identifier-syntax (_archive-services)))

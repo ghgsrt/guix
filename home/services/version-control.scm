@@ -12,5 +12,3 @@
 
 (define git-services
 	(list (service git-packages-service-type)))
-; (define-syntax git-services
-; 	(identifier-syntax (_git-services)))

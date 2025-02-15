@@ -5,9 +5,12 @@
   #:use-module (home services manifest)
   #:use-module (home services dev)
   #:use-module (home services ssh)
+  #:use-module (ice-9 rdelim)  ; For reading environment variables
   #:export (%bos-base-home
 	    %bos-base-home-services
 		%bos-base-home-service-type))
+
+(define dotfiles-dir (getenv "BOS_DOTFILES_DIR"))
 
 (define %bos-base-home-service-type
   (bos-home-service-type 'bos-base-home
@@ -35,11 +38,8 @@
 						dconf-editor
 						coreutils)
 		#:env-vars `(("GUIX_LOCPATH" . "$HOME/.guix-profile/lib/locale")
-					 ("PATH" . "$HOME/.local/bin:$PATH")
-					 ("BOS_HOME_PROFILE" . "$HOME/.guix-home/profile")
-					 ("BOS_HOME_TYPE" . "guix")
-					 ("BOS_HOME_NAME" . "base")
-					 ("BOS_CONFIG_DIR" . ,(car %load-path)))))
+					 ("PATH" . "$HOME/.local/bin:$PATH"))))
+					;  ("BOS_CONFIG_DIR" . ,(car %load-path))
 
 (define %bos-base-home-services
 	(append manifest-services
@@ -47,14 +47,7 @@
 			ssh-services
 			(list (service %bos-base-home-service-type)
 				   (simple-service 'meslo-fonts-service home-fontconfig-service-type
-				 	(list "/bos/dotfiles/fonts/MesloLGS"))
-		;   (service home-dotfiles-service-type
-		; 			(home-dotfiles-configuration
-		; 				(directories '("/dots"))
-		; 				(excluded '(".bashrc"))))
-				)))
-; (define-syntax %bos-base-home-services
-; 	(identifier-syntax (_%bos-base-home-services)))
+				 	(list (string-append dotfiles-dir "/fonts/MesloLGS"))))))
 
 
 (define %bos-base-home

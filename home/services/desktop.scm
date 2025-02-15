@@ -32,8 +32,6 @@
         (service dbus-root-service-type)
   		(service upower-service-type)
 		(service x11-socket-directory-service-type)))
-; (define-syntax %bos-desktop-services
-; 	(identifier-syntax (_desktop-services)))
 
 ;; ~~ QT ~~
 
@@ -47,8 +45,6 @@
 
 (define qt-services
 	(list (service qt-packages-service-type)))
-; (define-syntax qt-services
-	; (identifier-syntax (_qt-services)))
 
 ;; ~~ Kvantum ~~
 
@@ -58,8 +54,6 @@
 
 (define kvantum-services
 	(list (service kvantum-packages-service-type)))
-; (define-syntax kvantum-services
-; 	(identifier-syntax (_kvantum-services)))
 
 ;; ~~ Wayland ~~
 
@@ -93,8 +87,6 @@
 
 (define wayland-services
 	(list (service wayland-service-type)))
-; (define-syntax wayland-services
-; 	(identifier-syntax (_wayland-services)))
 
 ;; ~~ Sway ~~
 
@@ -111,8 +103,6 @@
 (define sway@minimal-services
 	(append (list (service sway@minimal-service-type))
 		 wayland-services))
-; (define-syntax sway@minimal-services
-; 	(identifier-syntax (_sway@minimal-services)))
 
 ;; Sway
 (define sway-service-type
@@ -125,17 +115,13 @@
 ;(define sway-services
 ;	(cons (service sway-service-type)
 ;		  (sway@minimal-services)))
-; (define-syntax sway-services
-; 	(identifier-syntax (_sway-services)))
 
 ;(display sway-services)
 
 ;; Sway:fx
-;(define (sway:fx-services)
+;(define sway:fx-services
 ;	(modify-services sway-services
 ;					 (list (home-sway-service-type config =>
 ;							(sway-configuration
 ;								(inherit config)
 ;								(packages (list swayfx)))))))
-;(define-syntax sway:fx-services
-;	(identifier-syntax (sway:fx-services)))

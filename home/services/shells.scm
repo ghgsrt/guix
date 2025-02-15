@@ -14,5 +14,3 @@
   (list (service zsh-packages-service-type)
 		(service home-zsh-service-type)
 		))
-; (define-syntax zsh-services
-; 	(identifier-syntax (_zsh-services)))

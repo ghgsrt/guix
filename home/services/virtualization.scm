@@ -13,5 +13,3 @@
 
 (define podman-services
 	(list (service podman-service-type)))
-; (define-syntax podman-services
-; 	(identifier-syntax (_podman-services)))

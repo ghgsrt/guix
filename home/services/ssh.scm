@@ -10,5 +10,3 @@
 
 (define ssh-services
   (list (service ssh-packages-service-type)))
-; (define-syntax ssh-services
-; 	(identifier-syntax (_ssh-services)))

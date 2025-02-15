@@ -3,14 +3,7 @@
   #:use-module (ice-9 match)
   #:use-module (ice-9 regex)
   #:use-module (srfi srfi-1)
-  #:export (load-dir
-  			load-features
-			load-packages
-			load-services
-			load-homes
-			load-users
-			load-systems
-			load-utils))
+  #:export (load-dir))
 
 (define* (load-dir dir
 				#:key
