@@ -1,4 +1,5 @@
 (define-module (home base)
+  #:use-module (dotfiles guix channels)
   #:use-module (home)
   #:use-module (services)
   #:use-module (packages)
@@ -47,6 +48,8 @@
 			guile-services
 			ssh-services
 			(list (service %bos-base-home-service-type)
+				   (simple-service 'bos-channels-service home-channels-service-type
+				   	%guixos-channels)
 				   (simple-service 'meslo-fonts-service home-fontconfig-service-type
 				 	(list (string-append dotfiles-dir "/fonts/MesloLGS"))))))
 
