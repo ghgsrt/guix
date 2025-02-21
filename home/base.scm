@@ -16,6 +16,7 @@
 (define %bos-base-home-service-type
   (bos-home-service-type 'bos-base-home
   		#:packages (list git
+						nss-certs
 						podman
 						vim
 						neovim
