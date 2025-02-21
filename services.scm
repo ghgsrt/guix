@@ -40,6 +40,7 @@
 			 (gnu home services sound)
 			 (gnu home services sway)
 			 (gnu home services desktop)
+			 (gnu home services guix)
 
 			 (gnu system accounts)
 			 (gnu system shadow)
