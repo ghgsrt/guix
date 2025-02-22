@@ -31,6 +31,7 @@
 
 (use-package-modules freedesktop
                      base
+					 certs
 		     		 tmux
                      lxqt
                      package-management
