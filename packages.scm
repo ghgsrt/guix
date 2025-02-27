@@ -1,6 +1,4 @@
 (define-module (packages)
-  #:use-module (packages shells)
-  #:use-module (packages terminals)
   #:use-module (gnu)
   #:use-module (gnu system)
   #:use-module (gnu system file-systems)

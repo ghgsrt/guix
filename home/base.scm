@@ -3,9 +3,13 @@
   #:use-module (home)
   #:use-module (services)
   #:use-module (packages)
+  #:use-module (packages vim)
+  #:use-module (packages tmux)
   #:use-module (home services manifest)
   #:use-module (home services dev)
   #:use-module (home services ssh)
+  #:use-module (home services shells)
+  #:use-module (home services archive)
   #:use-module (ice-9 rdelim)  ; For reading environment variables
   #:export (%bos-base-home
 	    %bos-base-home-services
@@ -17,12 +21,16 @@
   (bos-home-service-type 'bos-base-home
   		#:packages (list git
 						nss-certs
+						; glibc
+						gcc-toolchain
+						; binutils
 						podman
 						vim
-						neovim
+						neovim@0.10.4
 						tmux
 						tmux-tpm
 						gnupg
+						pinentry
 						hyperfine
 						nnn
 						shellcheck
@@ -48,6 +56,8 @@
 	(append manifest-services
 			guile-services
 			ssh-services
+			zsh-services
+			archive@minimal-services
 			(list (service %bos-base-home-service-type)
 				   (simple-service 'bos-channels-service home-channels-service-type
 				   	%guixos-channels)

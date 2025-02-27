@@ -22,7 +22,5 @@
 		(services (append (list (service primary@minimal-home-service-type))
 						  %bos-base-home-services
 						  sway@minimal-services
-						  foot-services
-						  zsh-services
-						  archive@minimal-services))))
+						  foot-services))))
 primary@minimal-home
