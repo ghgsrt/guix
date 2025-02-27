@@ -42,7 +42,8 @@
 ; (service kmscon-service-type
 ; (kmscon-configuration
 ; (virtual-terminal "tty6")))
-
+(service openssh-service-type (openssh-configuration
+				(permit-root-login #t)))
 ;; this is the only login/seat service that will actually get sway to work 🤷🏻‍♂️
 (service greetd-service-type
            (greetd-configuration

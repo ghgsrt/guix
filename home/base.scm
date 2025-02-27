@@ -49,6 +49,9 @@
 						coreutils)
 		#:env-vars `(("GUIX_LOCPATH" . "$HOME/.guix-profile/lib/locale")
 					 ("PATH" . "$HOME/.local/bin:$PATH")
+					 ("EDITOR" . "nvim")
+					 ("VISUAL" . "nvim")
+					 ("SHELL" . "zsh")
 					 ("BOS_HOME_NAME" . "base"))))
 					;  ("BOS_CONFIG_DIR" . ,(car %load-path))
 

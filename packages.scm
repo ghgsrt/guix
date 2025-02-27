@@ -46,6 +46,7 @@
                      gnupg
                      multiprecision
                      gcc
+		     commencement
                      aspell
                      gdb
                      rust-apps

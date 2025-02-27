@@ -1,5 +1,6 @@
 (define-module (packages tmux)
   #:use-module (guix packages)
+  #:use-module (guix download)
   #:use-module (guix git-download)
   #:use-module (guix build-system copy)
   #:use-module (guix build-system cargo)

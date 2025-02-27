@@ -9,5 +9,6 @@
 	#:packages (list openssh)))
 
 (define ssh-services
-  (list (service ssh-packages-service-type
-  		 home-openssh-service-type)))
+  (list (service ssh-packages-service-type)
+	 ; (service home-openssh-service-type)
+	 ))
