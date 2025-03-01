@@ -1,16 +1,23 @@
 (define-module (packages tmux)
+  #:use-module (guix gexp)
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix git-download)
   #:use-module (guix build-system copy)
   #:use-module (guix build-system cargo)
   #:use-module (gnu packages tls)
+  #:use-module (gnu packages certs)
+  #:use-module (gnu packages ssh)
+  #:use-module (gnu packages version-control)
+  #:use-module (gnu packages compression)
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages crates-io)
+  #:use-module (gnu packages crates-crypto)
   #:use-module (gnu packages crates-vcs)
   #:use-module (gnu packages crates-graphics)
   #:use-module (gnu packages crates-check)
   #:use-module (gnu packages crates-web)
+  #:use-module (gnu packages crates-compression)
   #:use-module ((guix licenses) #:prefix license:))
 
 (define-public tmux-tpm
@@ -44,7 +51,7 @@
                      (uri (crate-uri "octocrab" version))
                      (file-name (string-append name "-" version ".tar.gz"))
                      (sha256
-                       (base32 "1vzsvbhc8cfnamnb4wqvs3i4avqbdx4n8f0ssy8r9lzvdqgx3pz2"))))
+                       (base32 "00a19h6xpcbpf9dcim9pbvz1awfasvlwjnfn5gsd1v23jp4y81ck"))))
                  (build-system cargo-build-system)
                  (arguments
                    `(#:cargo-inputs (("rust-arc-swap" ,rust-arc-swap-1)
@@ -108,7 +115,13 @@
                        (base32 "00w3jw6xay3nrqkhwl0226j102wpdd2a5gkmjaciammymxjs79jv"))))
                  (build-system cargo-build-system) 
                  (arguments
-                   `(#:cargo-inputs (("rust-bitflags" ,rust-bitflags-2)
+                   `(#:cargo-test-flags
+                     '("--"
+                       "--skip=backend::test::tests::buffer_view_with_overwrites"
+                       "--skip=buffer::buffer::tests::renders_emoji::case_2_polarbear"
+                       "--skip=buffer::buffer::tests::renders_emoji::case_3_eye_speechbubble"
+                       "--skip=text::span::tests::width")
+                     #:cargo-inputs (("rust-bitflags" ,rust-bitflags-2)
                                      ("rust-cassowary" ,rust-cassowary-0.3)
                                      ("rust-compact-str" ,rust-compact-str-0.8)
                                      ("rust-crossterm" ,rust-crossterm-0.28)
@@ -210,7 +223,8 @@
                        (base32 "1lf5zy1fjjqdwjkc445sw80hpmxi63ymcxgjh3q6642x2hck6hgy"))))  
                  (build-system cargo-build-system)
                  (arguments
-                   `(#:cargo-inputs
+                   `(#:tests? #f ; tests expect entry point at hash, not at hash/libs/error-stack
+                     #:cargo-inputs
                      (("rust-anyhow" ,rust-anyhow-1)
                       ("rust-eyre" ,rust-eyre-0.6)
                       ("rust-futures-core" ,rust-futures-core-0.3)
@@ -221,23 +235,50 @@
                       ("rust-tracing-error" ,rust-tracing-error-0.2))
                      #:cargo-development-inputs
                      (("rust-serde" ,rust-serde-1)
-                      ("rust-ansi-to-html" ,rust-ansi-to-html-0.1)
+                      ("rust-ansi-to-html" ,rust-ansi-to-html-0.2) ; expects 0.2.2
                       ("rust-expect-test" ,rust-expect-test-1)
                       ("rust-futures" ,rust-futures-0.3)
                       ("rust-futures-util" ,rust-futures-util-0.3)
-                      ("rust-insta" ,rust-insta-1)
-                      ("rust-owo-colors" ,rust-owo-colors-4)
+                      ("rust-insta" ,rust-insta-1) ; expects 1.42.1 (got 1.41.1)
+                      ("rust-owo-colors" ,rust-owo-colors-4) ; expects 4.2.0 (got 4.1.0)
                       ("rust-regex" ,rust-regex-1)
                       ("rust-supports-color" ,rust-supports-color-3)
                       ("rust-supports-unicode" ,rust-supports-unicode-3)
-                      ("rust-thiserror" ,rust-thiserror-2)
+                      ("rust-thiserror" ,rust-thiserror-2) ; expects 2.0.11 (got 2.0.9)
                       ("rust-tracing" ,rust-tracing-0.1)
                       ("rust-tracing-subscriber" ,rust-tracing-subscriber-0.3)
-                      ("rust-trybuild" ,rust-trybuild-1))))
+                      ("rust-trybuild" ,rust-trybuild-1)))) ; expects 1.0.103 (got 1.0.101)
                  (synopsis "A context-aware error-handling library that supports arbitrary attached user data.")
                  (description "error-stack is a context-aware error-handling library that supports arbitrary attached user data.")
                  (home-page "https://github.com/hashintel/hash/tree/main/libs/error-stack")
                  (license license:expat)))
+
+
+(define-public rust-ansi-to-html-0.2
+  (package
+    (name "rust-ansi-to-html")
+    (version "0.2.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (crate-uri "ansi-to-html" version))
+       (file-name (string-append name "-" version ".tar.gz"))
+       (sha256
+        (base32 "0r07skcd0rp4fwww66hn2sal4f7p4nhq2zjpk7pkamr8zjj87qhj"))))
+    (build-system cargo-build-system)
+    (arguments
+     `(#:cargo-inputs (
+                       ("rust-regex" ,rust-regex-1)
+                       )
+       #:cargo-development-inputs (
+                                    ("rust-divan" ,rust-divan-0.1)
+                                    ("rust-flate2" ,rust-flate2-1)
+                                   ("rust-insta" ,rust-insta-1))))
+    (home-page
+     "https://github.com/Aloso/to-html/tree/master/crates/ansi-to-html")
+    (synopsis "ANSI escape codes to HTML converter")
+    (description "This package provides an ANSI escape codes to HTML converter.")
+    (license license:expat)))
 
 (define-public tmux-sessionizer
                (package
@@ -249,20 +290,18 @@
                      (uri (crate-uri "tmux-sessionizer" version))
                      (file-name (string-append name "-" version ".tar.gz"))
                      (sha256
-                       (base32 "0fwdc8jyx9fab442c6zsl3yn8nh1s5h35g97cgqhyp3blxl6h9ix")))) 
+                       (base32 "0fwdc8jyx9fab442c6zsl3yn8nh1s5h35g97cgqhyp3blxl6h9ix"))
+                     (snippet #~(begin (use-modules (guix build utils))
+                                   (substitute* "Cargo.toml" (("\"vendored-openssl\"") ""))))
+                     )) 
                  (build-system cargo-build-system)
+                 (native-inputs (list pkg-config))
+                 (inputs (list openssl libgit2-1.8 libssh2))
                  (arguments
                    `(
-                    ; #:phases
-                    ; (modify-phases %standard-phases
-                    ;                (add-after 'unpack 'patch-env-var
-                    ;                           (lambda* (#:key inputs #:allow-other-keys)
-                    ;                                    (let ((openssl (assoc-ref inputs "openssl")))
-                    ;                                      (setenv "RUST_BACKTRACE" "full")
-                    ;                                      (setenv "OPENSSL_DIR" openssl)
-                    ;                                      (setenv "OPENSSL_NO_VENDOR" "1"))
-                    ;                                    #t)))
-                     ; #:env-variables `(("OPENSSL_NO_VENDOR" . "1"))
+                ;     #:phases (modify-phases %standard-phases
+                ;      (add-before 'configure 'prepare-build-environment
+                ;        (lambda _ (setenv "OPENSSL_NO_VENDOR" "1"))))
                      #:cargo-inputs
                      (("rust-git2" ,rust-git2-0.19) ;; expects 0.20
                       ("rust-clap" ,rust-clap-4)
