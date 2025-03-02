@@ -1,5 +1,5 @@
 (define-module (home base)
-	       #:use-module (dotfiles guix channels)
+;	       #:use-module (dotfiles guix channels)
 	       #:use-module (home)
 	       #:use-module (services)
 	       #:use-module (packages)
@@ -19,6 +19,8 @@
 			  %bos-base-home-service-type))
 
 (define dotfiles-dir (getenv "DOTFILES_DIR"))
+
+(define channels (load (string-append dotfiles-dir "/guix/channels.scm")))
 
 (define %bos-base-home-service-type
   (bos-home-service-type 'bos-base-home
@@ -71,7 +73,7 @@
 					get-string-all))))
 	    (service %bos-base-home-service-type)
 	    (simple-service 'bos-channels-service home-channels-service-type
-			    %guixos-channels)
+			    channels)
 	    )))
 
 
