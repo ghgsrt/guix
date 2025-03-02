@@ -13,6 +13,7 @@
 	       #:use-module (home services shells)
 	       #:use-module (home services archive)
 	       #:use-module (ice-9 rdelim)  ; For reading environment variables
+	       #:use-module (ice-9 textual-ports) ; For get-string-all  
 	       #:export (%bos-base-home
 			  %bos-base-home-services
 			  %bos-base-home-service-type))
@@ -23,21 +24,13 @@
   (bos-home-service-type 'bos-base-home
 			 #:packages (list git
 					  nss-certs
-					  ; glibc
 					  gcc-toolchain
-					  ; binutils
 					  podman
-					  vim
 					  neovim@0.10.4
 					  tmux
 					  tmux-tpm
 					  tmux-sessionizer
-					  ;rust-octocrab-0.39
-					  ;rust-ratatui-0.28
-					  ;rust-git2-0.19
-					  ;rust-error-stack-0.5
 					  hyperfine
-					  nnn
 					  shellcheck
 					  shfmt
 					  fzf
@@ -57,9 +50,9 @@
 				      ("PATH" . "$HOME/.local/bin:$PATH")
 				      ("EDITOR" . "nvim")
 				      ("VISUAL" . "nvim")
+				      ("PAGER" . "nvim")
 				      ("SHELL" . "zsh")
 				      ("BOS_HOME_NAME" . "base"))))
-;  ("BOS_CONFIG_DIR" . ,(car %load-path))
 
 (define %bos-base-home-services
   (append manifest-services
@@ -71,13 +64,14 @@
 	    (service home-gpg-agent-service-type 
 		     (home-gpg-agent-configuration
 		       (ssh-support? #t)
-		       (pinentry-program
-			 (file-append pinentry "/bin/pinentry"))))
+		       (pinentry-program 
+			 (file-append pinentry "/bin/pinentry-curses"))
+		       (extra-content (call-with-input-file
+					(string-append dotfiles-dir "/home/.gnupg/gpg-agent.conf") 
+					get-string-all))))
 	    (service %bos-base-home-service-type)
 	    (simple-service 'bos-channels-service home-channels-service-type
 			    %guixos-channels)
-	    ;(simple-service 'meslo-fonts-service home-fontconfig-service-type
-	;		    (list (string-append dotfiles-dir "/fonts/MesloLGS")))
 	    )))
 
 
