@@ -69,7 +69,7 @@
 		       (pinentry-program 
 			 (file-append pinentry "/bin/pinentry-curses"))
 		       (extra-content (call-with-input-file
-					(string-append dotfiles-dir "/home/.gnupg/gpg-agent.conf") 
+					(string-append dotfiles-dir "/home/.gnupg/_gpg-agent.conf") 
 					get-string-all))))
 	    (service %bos-base-home-service-type)
 	    (simple-service 'bos-channels-service home-channels-service-type
