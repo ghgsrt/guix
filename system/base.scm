@@ -23,74 +23,46 @@
 
 
 (define %bos-base-services
-	(cons*
-; (service kmscon-service-type (kmscon-configuration
-; (virtual-terminal "tty1")
-; (keyboard-layout (keyboard-layout "us" "basic"))))
-; (service kmscon-service-type
-; (kmscon-configuration
-; (virtual-terminal "tty2")))
-; (service kmscon-service-type
-; (kmscon-configuration
-; (virtual-terminal "tty3")))
-; (service kmscon-service-type
-; (kmscon-configuration
-; (virtual-terminal "tty4")))
-; (service kmscon-service-type
-; (kmscon-configuration
-; (virtual-terminal "tty5")))
-; (service kmscon-service-type
-; (kmscon-configuration
-; (virtual-terminal "tty6")))
-(service openssh-service-type (openssh-configuration
-				(permit-root-login #t)))
-;; this is the only login/seat service that will actually get sway to work 🤷🏻‍♂️
-(service greetd-service-type
-           (greetd-configuration
-            (greeter-supplementary-groups '("video" "input" "users"))
-            (terminals
-             (list
-              (greetd-terminal-configuration
-               (terminal-vt "1")
-               (terminal-switch #t)
-               (default-session-command
-                 ;; https://guix.gnu.org/manual/en/html_node/Base-Services.html
-                 ;; issues.guix.gnu.org/65769
-                 (greetd-wlgreet-sway-session
-                  (sway-configuration
-                   (local-file %greetd-conf
-                               #:recursive? #t)))))
-              (greetd-terminal-configuration
-               (terminal-vt "2"))
-              (greetd-terminal-configuration
-               (terminal-vt "3"))
-              (greetd-terminal-configuration
-               (terminal-vt "4"))
-              (greetd-terminal-configuration
-               (terminal-vt "5"))
-              (greetd-terminal-configuration
-               (terminal-vt "6"))))))
-
-;(virtual-terminal "tty3")
-;(virtual-terminal "tty4")
-;(virtual-terminal "tty5")
-;(virtual-terminal "tty6")))
-(service guix-home-service-type
-                        `(("root" ,primary@minimal-home)
-			  ("bosco" ,primary@minimal-home)))
- (modify-services %desktop-services
-(guix-service-type config => (guix-configuration (inherit config)
-								; (environment '(("BOS_DISTRO" . "guix")))
-								(channels %guixos-channels)))
-(delete gdm-service-type)
-(delete login-service-type)
-(delete mingetty-service-type))
-
-;(service guix-service-type (guix-configuration (channels %guix-channels)))
-;(service network-manager-service-type)
-;		  (service wpa-supplicant-service-type)
-;		  (service ntp-service-type)
-))
+  (cons*
+    (service openssh-service-type (openssh-configuration
+				    (permit-root-login #t)))
+    ;; this is the only login/seat service that will actually get sway to work 🤷🏻‍♂️
+    (service greetd-service-type
+	     (greetd-configuration
+	       (greeter-supplementary-groups '("video" "input" "users"))
+	       (terminals
+		 (list
+		   (greetd-terminal-configuration
+		     (terminal-vt "1")
+		     (terminal-switch #t)
+		     (default-session-command
+		       ;; https://guix.gnu.org/manual/en/html_node/Base-Services.html
+		       ;; issues.guix.gnu.org/65769
+		       (greetd-wlgreet-sway-session
+			 (sway-configuration
+			   (local-file %greetd-conf
+				       #:recursive? #t)))))
+		   (greetd-terminal-configuration
+		     (terminal-vt "2"))
+		   (greetd-terminal-configuration
+		     (terminal-vt "3"))
+		   (greetd-terminal-configuration
+		     (terminal-vt "4"))
+		   (greetd-terminal-configuration
+		     (terminal-vt "5"))
+		   (greetd-terminal-configuration
+		     (terminal-vt "6"))))))
+    (service guix-home-service-type
+	     `(("root" ,primary@minimal-home)
+	       ("bosco" ,primary@minimal-home)))
+    (modify-services %desktop-services
+		     (guix-service-type config => (guix-configuration
+						    (inherit config)
+						    (channels %guixos-channels)))
+		     (delete gdm-service-type)
+		     (delete login-service-type)
+		     (delete mingetty-service-type))
+    ))
 
 (define %bos-base-os
 	(operating-system
@@ -137,3 +109,4 @@
 							%base-file-systems))))
 
 (display "Loading BASE-OS from module system")
+

@@ -7,6 +7,7 @@
 	       #:use-module (packages tmux)
 	       #:use-module (packages fonts)
 	       #:use-module (gnu packages crates-vcs)
+	       #:use-module (gnu packages emacs)
 	       #:use-module (home services manifest)
 	       #:use-module (home services dev)
 	       #:use-module (home services ssh)
@@ -47,9 +48,23 @@
 					  dstat
 					  ncurses
 					  dconf-editor
-					  coreutils)
+					  coreutils
+
+					  ;; EMACS
+					  emacs-no-x-toolkit ; pure terminal impl
+					  emacs-geiser
+					  emacs-geiser-guile
+
+					  ;; GUIX hacking
+					  ;autoconf
+					  ;automake:
+					  ;gettext
+					  ;texinfo
+					  ;graphviz
+					  ;help2man
+					  )
 			 #:env-vars `(("GUIX_LOCPATH" . "$HOME/.guix-profile/lib/locale")
-				      ("PATH" . "$HOME/.local/bin:$PATH")
+				      ("PATH" . "$HOME/.local/bin:$HOME/.config/emacs/bin:$PATH")
 				      ("EDITOR" . "nvim")
 				      ("VISUAL" . "nvim")
 				      ("PAGER" . "nvim")
