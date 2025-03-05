@@ -4,10 +4,14 @@
   #:use-module (packages)
   #:use-module (services)
   #:use-module (home primary)
-  #:use-module (dotfiles guix channels)
+  #:use-module (ice-9 rdelim)
   #:export (%bos-base-os
 			%bos-base-packages
 			%bos-base-services))
+
+(define %dotfiles-dir (getenv "DOTFILES_DIR"))
+
+(define %bos-channels (load (string-append %dotfiles-dir "/guix/channels.scm")))
 
 (define %bos-base-packages
 	(list git
@@ -20,7 +24,6 @@
 
 (define %greetd-conf (string-append "/home/bosco/.guixos-sway/"
                                     "files/sway/sway-greetd.conf"))
-
 
 (define %bos-base-services
   (cons*
@@ -58,11 +61,10 @@
     (modify-services %desktop-services
 		     (guix-service-type config => (guix-configuration
 						    (inherit config)
-						    (channels %guixos-channels)))
+						    (channels %bos-channels)))
 		     (delete gdm-service-type)
 		     (delete login-service-type)
-		     (delete mingetty-service-type))
-    ))
+		     (delete mingetty-service-type))))
 
 (define %bos-base-os
 	(operating-system
@@ -79,14 +81,7 @@
 						   %base-firmware))
 		
 		(packages (append %bos-base-packages %base-packages))
-		(services (append %bos-base-services 
-			;	  (modify-services %desktop-services
-;(guix-service-type config => (guix-configuration (inherit config) 
-;(channels %guixos-channels)))
-;(delete gdm-service-type))
-;                                               (delete login-service-type)
-;                                               (delete mingetty-service-type)
-))
+		(services %bos-base-services)
 
 		(groups (cons (user-group (system? #t) (name "seat")) %base-groups))
 
@@ -103,10 +98,10 @@
 						(targets (list "/boot/efi"))))
 
 		(file-systems (cons (file-system
-								(device (file-system-label "root"))
-								(mount-point "/")
-								(type "ext4"))
-							%base-file-systems))))
+				      (device (file-system-label "root"))
+				      (mount-point "/")
+				      (type "ext4"))
+			      %base-file-systems))))
 
 (display "Loading BASE-OS from module system")
 

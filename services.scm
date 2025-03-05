@@ -1,4 +1,4 @@
-v(define-module (services))
+(define-module (services))
 
 ;; Service facade
 
