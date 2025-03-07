@@ -2,12 +2,15 @@
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
   #:use-module (packages)
+  #:use-module (packages vim)
+  #:use-module (packages tmux)
+  #:use-module (gnu packages wget)
   #:use-module (services)
   #:use-module (home primary)
   #:use-module (ice-9 rdelim)
   #:export (%bos-base-os
 			%bos-base-packages
-			%bos-base-services))
+			%bos-base-desktop-services))
 
 (define %dotfiles-dir (getenv "DOTFILES_DIR"))
 
@@ -16,8 +19,15 @@
 (define %bos-base-packages
 	(list git
 		  tmux
+		  tmux-tpm
+		  tmux-sessionizer
+		  neovim@0.10.4
 		  openssl
+		  openssh
+		  gnupg
+		  pinentry
 		  net-tools
+		  wget2
 		  curl
 		  ripgrep
 		  fd))
@@ -25,10 +35,10 @@
 (define %greetd-conf (string-append "/home/bosco/.guixos-sway/"
                                     "files/sway/sway-greetd.conf"))
 
-(define %bos-base-services
+(define %bos-base-desktop-services
   (cons*
-    (service openssh-service-type (openssh-configuration
-				    (permit-root-login #t)))
+;   (service openssh-service-type (openssh-configuration
+;			    (permit-root-login #t)))
     ;; this is the only login/seat service that will actually get sway to work 🤷🏻‍♂️
     (service greetd-service-type
 	     (greetd-configuration
@@ -76,12 +86,13 @@
 		(kernel (@ (nongnu packages linux) linux))
 		(initrd (@ (nongnu system linux-initrd) microcode-initrd))
 
-		(firmware (append (list sof-firmware
-							   (@ (nongnu packages linux) linux-firmware))
-						   %base-firmware))
+		(firmware (append
+			    (list sof-firmware
+				   (@ (nongnu packages linux) linux-firmware))
+			   %base-firmware))
 		
 		(packages (append %bos-base-packages %base-packages))
-		(services %bos-base-services)
+		(services %base-services)
 
 		(groups (cons (user-group (system? #t) (name "seat")) %base-groups))
 
@@ -104,4 +115,6 @@
 			      %base-file-systems))))
 
 (display "Loading BASE-OS from module system")
+
+%bos-base-os
 

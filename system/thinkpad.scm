@@ -48,7 +48,7 @@
     (packages (append thinkpad-packages
 		      (operating-system-packages %bos-base-os)))
     (services (append thinkpad-services
-		      %bos-base-services))
+		      %bos-base-desktop-services))
 
     (swap-devices (list (swap-space
 			  (target (uuid
